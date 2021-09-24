@@ -12,7 +12,6 @@ class Answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.String)
     session = db.Column(db.String)
-    question = db.Column(db.String)
     score = db.Column(db.Integer, default=0)
     was_scanned = db.Column(db.Boolean, default=False)
 
