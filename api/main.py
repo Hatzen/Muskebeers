@@ -10,7 +10,7 @@ config = {
     "host": "127.0.0.1"
 }
 config_path = __file__.replace("main.py", "config.json")
-if not os.path.isfile("config.json"):
+if not os.path.isfile(config_path):
     with open(config_path, "w") as cfg_file:
         json.dump(config, cfg_file, indent=4)
 else:
