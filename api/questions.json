@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.628715, 51.962748]
+      },
+      "properties": {
+        "name": "Lambertikirche",
+        "question": "Wo finde ich die drei Kaefige?",
+        "categories": ["Kirche", "Sightseeing"],
+        "hints": ["Kirch", "Wiedertaeufer", ""]
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.626444, 51.962748]
+      },
+      "properties": {
+        "name": "Ludgerikreis",
+        "question": "Wo ist der groesste Kreis?",
+        "categories": ["Strasse"],
+        "hints": ["Kreisverkehr", "Hasen"]
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.626444, 51.962748]
+      },
+      "properties": {
+        "name": "Rathaus",
+        "question": "Wo gibt es eine Hand zu bestaunen?",
+        "categories": ["Sightseeing"],
+        "hints": ["30 jaehriger Krieg", "Friedensvertrag"]
+      }
+    }
+  ]
+}
