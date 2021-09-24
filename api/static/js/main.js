@@ -111,7 +111,7 @@ function getHTMLCodeForQuestion () {
     return "<center><h2 style='margin-top: 25%;'>"
         + question +
         "</h2></center>" +
-        "<div style=' display: flex;'> <img src='pictures/qr-code.png' height='90'  alt='QR-Code' " +
+        "<div style=' display: flex;'> <img src='../static/pictures/qr-code.png' height='90'  alt='QR-Code' " +
         "onclick='alert(currentQuestion)'></div>" +
         "<Button style=' display: outside; left: 50%; color: white; background-color: #3e739d;' onclick='skipQuestion()'>skip</Button>"
 }
