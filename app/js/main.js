@@ -35,17 +35,18 @@ const dummyQuestions = [
  */
 
 const STORAGE_KEY_CURRENT_QUESTION = "STORAGE_KEY_CURRENT_QUESTION";
+const QRCODE_VIDEO_ID = "QRCODE_VIDEO_ID"
 
 var currentQuestion = null;
+var qrScanner = null;
 
 function initView () {
     console.log("init View");
     if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
         getAndStorNewQuestion();
     }
-    debugger
     currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-    setMainContent(getHTMLCodeForQuestion())
+    setMainContent(getHtmlCodeForQrScanner())
 }
 
 function getAndStorNewQuestion () {
@@ -60,7 +61,34 @@ function getNextQuestion () {
 function setMainContent(htmlCode) {
     console.log("Change content");
     $("main").html(htmlCode);
+    
+    // When there is a video element we have the qr view activated.
+    if ($("#" + QRCODE_VIDEO_ID).length) {
+        initQrCodeScanner();
+    }
     hideMenu();
+}
+
+function initQrCodeScanner() {
+    // const QrScanner = require('qr-scanner')
+    // const QrScanner = require('js/qr-scanner.umd.min.js');
+    const videoElem = $("#" + QRCODE_VIDEO_ID).get(0)
+    debugger
+    qrScanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+    qrScanner.start();
+}
+
+function deinitQrCodeScanner() {
+    qrScanner.stop();
+    qrScanner = null;
+}
+
+function getHtmlCodeForQrScanner () {
+    // const QrScanner = require('qr-scanner'); // if installed via package
+    // const QrScanner = require('path/to/qr-scanner.umd.min.js'); // if not installed via package
+    // do something with QrScanner
+    
+    return "<video style='width: 100%; min-height: 150px; height: 100%; background: #241;' id='" + QRCODE_VIDEO_ID + "'></video>";
 }
 
 function getHTMLCodeForQuestion () {
