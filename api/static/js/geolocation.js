@@ -42,6 +42,9 @@ function getCurrentPosition () {
  * @prama function({latitude: double, longitude: double}) 
  */
  function watchPosition (callback) {
+     if (currentGeoWatcher != null) {
+        clear()
+     }
     currentGeoWatcher = navigator.geolocation.watchPosition(function (position) {
         let location = {
             latitude: null,
@@ -55,6 +58,7 @@ function getCurrentPosition () {
 
 function clear() {
     navigator.geolocation.clearWatch(currentGeoWatcher);
+    currentGeoWatcher = null
 }
   
 function isGeoLocationSupported () {

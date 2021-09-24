@@ -42,12 +42,7 @@
  
  function initView () {
      if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
-         getAndStorNewQuestion();
-     }
-     if (isGeoLocationSupported()) {
-        watchPosition(updateGeoLocation)
-        currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-        setMainContent(getHTMLCodeForQuestion())
+        requestNextQuestion();
      }
  }
 
@@ -83,14 +78,23 @@
     var hue=((1-value)*120).toString(10);
     return ["hsl(",hue,",100%,50%)"].join("");
 }
- 
- function getAndStorNewQuestion () {
-     localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(getNextQuestion()));
+
+ function receivedNewQuestion (question) {
+    localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(question));
+    if (isGeoLocationSupported()) {
+        watchPosition(updateGeoLocation)
+        currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
+        setMainContent(getHTMLCodeForQuestion())
+     }
  }
  
- function getNextQuestion () {
-    let question = getNewQuestionByServerRequest()
-     return dummyQuestions[counter++ % dummyQuestions.length];
+ function requestNextQuestion () {
+    const dummyDebug = false 
+    if (dummyDebug) {
+        receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
+    } else {
+        requestNewQuestionByServer(getCurrentPosition(), receivedNewQuestion)
+    }
  }
  
  function setMainContent(htmlCode) {
@@ -128,6 +132,9 @@
  }
 
 function getHTMLCodeForQuestion () {
+    if (currentQuestion == null) {
+        return "<center>loading..</center>"
+    }
     let question = currentQuestion.properties.question;
     return "<center><h2 style='margin-top: 25%;'>"
         + question +
