@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Lightning Talk - WebDev in Python with Flask</title>
+        <link rel="icon" href="{{ url_for('static',filename='images/imi-logo.png') }}">
+
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+        <script src="{{ url_for('static',filename='js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
+    </head>
+    <body class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <table class="table table-striped" style="text-align: center;">
+                    <thead>
+                        <tr>
+                            <th>Your Session</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ session_id }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
