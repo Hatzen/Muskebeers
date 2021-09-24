@@ -34,24 +34,6 @@
   * Implementation
   */
  
- 
- /**
-  * Request of Geolocation for current position in
-  * @param stand
-  */
- function currentPosition () {
-         if (navigator.geolocation) {
-         let stand = [];
-         //getCurrentPosition or watchPosition
-         navigator.geolocation.getCurrentPosition(function (position) {
-             stand.push(position.coords.latitude);
-             stand.push(position.coords.longitude);
-         })
- 
-         return stand;
- }else{
-         return null;
- }}
  const STORAGE_KEY_CURRENT_QUESTION = "STORAGE_KEY_CURRENT_QUESTION";
  const QRCODE_VIDEO_ID = "QRCODE_VIDEO_ID"
  
@@ -62,20 +44,59 @@
      if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
          getAndStorNewQuestion();
      }
-     currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-     setMainContent(getHTMLCodeForQuestion())
+     if (isGeoLocationSupported()) {
+        watchPosition(updateGeoLocation)
+        currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
+        setMainContent(getHTMLCodeForQuestion())
+     }
  }
+
+ /**
+  * 
+  * @param {longitude: double, latitude: double} location 
+  */
+ function updateGeoLocation (location) {
+    if (currentQuestion == null) {
+        console.error("Current question is null! UpdateGeoLocation cannot calculate distance.")
+    }
+    let targetLongitude = currentQuestion.geometry.coordinates[0]
+    let targetLatitude = currentQuestion.geometry.coordinates[1]
+    let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude))
+    let currentColor = getColorForValue(distanceToQuestionTarget)
+    $("body").css({'background-color': currentColor});
+ }
+
+ /**
+  * 
+  * @param {double} value value between 0 and infinity 
+  */
+ function getColorForValue (value) {
+    let normalizedValue = Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM
+    return getColor(normalizedValue)
+ }
+
+ /**
+  * @param {double} value from 0 green to 0.5 yellow to 1 red
+  * @returns color string
+  */
+ function getColor(value){
+    var hue=((1-value)*120).toString(10);
+    return ["hsl(",hue,",100%,50%)"].join("");
+}
  
  function getAndStorNewQuestion () {
      localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(getNextQuestion()));
  }
  
  function getNextQuestion () {
-     // TODO: Server Call
+    let question = getNewQuestionByServerRequest()
      return dummyQuestions[counter++ % dummyQuestions.length];
  }
  
  function setMainContent(htmlCode) {
+     if (!isGeoLocationSupported()) {
+        $("main").html('<center> Please enable location detection</center>');
+     }
      $("main").html(htmlCode);
      
      // When there is a video element we have the qr view activated.
