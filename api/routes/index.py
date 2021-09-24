@@ -13,10 +13,10 @@ def init(app: Flask):
         }
 
         if session.get("id") is None:
-            session["id"] = str(uuid.uuid1())
+            session["id"] = str(uuid.uuid4())
         existing_user = User.query.filter_by(session=session["id"]).first()
         if existing_user is not None:
-            session["name"] = existing_user.get_name()
+            session["name"] = existing_user.name
             print(session["name"])
             return redirect(url_for("game"))
         return render_template("index.html.j2", **attr)
@@ -29,7 +29,7 @@ def init(app: Flask):
             user = User(session=session["id"], name=name)
             database.db.session.add(user)
             database.db.session.commit()
-            session["name"] = user.get_name()
+            session["name"] = user.name
             return {"status": "OK"}
 
     @app.route("/session-test")
@@ -47,6 +47,6 @@ def init(app: Flask):
             return redirect(url_for("index"))
         attr = {
             "session_id": sid,
-            "name": user.get_name()
+            "name": user.name
         }
         return render_template("game.html.j2", **attr)
