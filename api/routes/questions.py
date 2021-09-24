@@ -43,13 +43,27 @@ def init(app: Flask):
         feature = filter_for_solved(features)
         feature = filter_for_categories(features, categories)
         feature = filter_for_distance(feature, Point(lng, lat), radius)
-        return {"feature": feature, "args": request.args}
+        if len(feature) == 0:
+            return {"feature": None, "args": request.args}
+        active_question[session["id"]] = feature[0]["properties"]["id"]
+        return {"feature": feature[0], "args": request.args}
 
     @app.route("/checkpoint-reached", methods=["POST"])
     def checkpointReached():
-        data = request.form.to_dict()
-        position = data["position"]
-        Point.distance(Point(*position, ))
+        from database.user import Answers
+        from database import db
+        sid = session["id"]
+        qid = active_question.get(sid, None)
+        if qid is None:
+            return {"status": "Failed - No Active Question", "score": 0}
+        a = Answers.query.filter_by(question_id=qid, session=sid).first()
+        if a is not None:
+            return {"status": "Already Solved!", "score": a.score}
+        a = Answers(question_id=qid, session=sid, score=1, was_scanned=False)
+        db.session.add(a)
+        db.session.commit()
+        return {"status": "OK", "score": a.score}
+
 
 if __name__ == "__main__":
     a = Point(7.628817718228859, 51.96275580625961)
