@@ -1,24 +1,57 @@
-import os
-from flask import Flask, render_template
+import os, uuid
+from flask import Flask, render_template, session, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+import database
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/lightning-talk.sqlite"
-create_db = not os.path.isfile("/tmp/lightning-talk.sqlite") # If the File does not exist, the schema needs to be created
-db = SQLAlchemy(app)
+app.secret_key = str(uuid.uuid1())
+database.db = SQLAlchemy(app)
+database.init()
+
+from database.user import User
 
 
 # Table of Content
-@app.route('/')
+@app.route("/")
 def index():
     attr = {
         "content": []
     }
+    if session.get("id") is None:
+        session["id"] = str(uuid.uuid1())
+    existing_user = User.query.filter_by(session=session["id"]).first()
+    if existing_user is not None:
+        session["name"] = existing_user.get_name()
+        print(session["name"])
+        return redirect(url_for("game"))
     return render_template("index.html.j2", **attr)
 
-if create_db:
-    print("Creating DB")
-    db.create_all()
+@app.route("/join-game", methods=["POST"])
+def setUsername():
+    form = request.form.to_dict()
+    name = form.get("name", None)
+    if name is not None:
+        user = User(session=session["id"], name=name)
+        database.db.session.add(user)
+        database.db.session.commit()
+        session["name"] = user.get_name()
+        return {"status": "OK"}
+
+@app.route("/session-test")
+def sessionTest():
+    attr = {
+        "session_id": session.get("id")
+    }
+    return render_template("session_test.html.j2", **attr)
+
+@app.route("/game")
+def game():
+    attr = {
+        "session_id": session.get("id"),
+        "name": session.get("name")
+    }
+    return render_template("game.html.j2", **attr)
 
 # Run
 if __name__ == "__main__":
