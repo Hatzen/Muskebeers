@@ -4,8 +4,8 @@ class Point:
     earth_factor = 40000000 / 365
 
     def __init__(self, lng, lat):
-        self.lng = lng
-        self.lat = lat
+        self.lng = float(lng)
+        self.lat = float(lat)
     
     def distance(self, point):
         a = self.lng - point.lng

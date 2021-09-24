@@ -28,13 +28,13 @@ def init(app: Flask):
     def question():
         categories = request.args.get('categories', [])
         position = request.args.get('position', [7, 51])
-        radius = request.args.get('radius', 500)
+        radius = float(request.args.get('radius', 500))
         feature = features
 
         feature = filter_for_categories(features, categories)
         feature = filter_for_distance(feature, Point(position[0], position[1]), radius)
-    
-        return feature
+        feature.append("")
+        return feature[0]
 
 if __name__ == "__main__":
     a = Point(7.628817718228859, 51.96275580625961)
