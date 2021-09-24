@@ -34,6 +34,24 @@ const dummyQuestions = [
  * Implementation
  */
 
+
+/**
+ * Request of Geolocation for current position in
+ * @param stand
+ */
+function currentPosition () {
+        if (navigator.geolocation) {
+        let stand = [];
+        //getCurrentPosition or watchPosition
+        navigator.geolocation.getCurrentPosition(function (position) {
+            stand.push(position.coords.latitude);
+            stand.push(position.coords.longitude);
+        })
+
+        return stand;
+}else{
+        return null;
+}}
 const STORAGE_KEY_CURRENT_QUESTION = "STORAGE_KEY_CURRENT_QUESTION";
 const QRCODE_VIDEO_ID = "QRCODE_VIDEO_ID"
 
@@ -41,7 +59,6 @@ var currentQuestion = null;
 var qrScanner = null;
 
 function initView () {
-    console.log("init View");
     if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
         getAndStorNewQuestion();
     }
@@ -59,7 +76,6 @@ function getNextQuestion () {
 }
 
 function setMainContent(htmlCode) {
-    console.log("Change content");
     $("main").html(htmlCode);
     
     // When there is a video element we have the qr view activated.
