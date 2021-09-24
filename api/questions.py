@@ -18,19 +18,22 @@ def filter_for_distance(features, point, radius):
 
     return accepable_distance_features
 
+def filter_for_categories(features, categories):
+    for category in categories:
+        features = list(filter(lambda f: category in f['categories'], features))
+    return features
+
 def init(app: Flask):
     @app.route('/question')
     def question():
-        categories = request.args.get('categories')
-        position = request.args.get('position')
-        radius = request.args.get('radius')
+        categories = request.args.get('categories', [])
+        position = request.args.get('position', [7, 51])
+        radius = request.args.get('radius', 500)
         feature = features
 
-        for category in categories:
-            feature = list(filter(lambda f: category in f['categories'], feature))
-
+        feature = filter_for_categories(features, categories)
         feature = filter_for_distance(feature, Point(position[0], position[1]), radius)
-
+    
         return feature
 
 if __name__ == "__main__":
