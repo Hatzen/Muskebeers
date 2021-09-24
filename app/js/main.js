@@ -46,7 +46,7 @@ function initView () {
         getAndStorNewQuestion();
     }
     currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-    setMainContent(getHtmlCodeForQrScanner())
+    setMainContent(getHTMLCodeForQuestion())
 }
 
 function getAndStorNewQuestion () {
@@ -70,10 +70,11 @@ function setMainContent(htmlCode) {
 }
 
 function initQrCodeScanner() {
-    // const QrScanner = require('qr-scanner')
-    // const QrScanner = require('js/qr-scanner.umd.min.js');
     const videoElem = $("#" + QRCODE_VIDEO_ID).get(0)
-    debugger
+    // TODO: This leads to an error 
+    // 1523qr-scanner.umd.min.js:14 DOMException: Failed to construct 'Worker': Script at 'file:///C:/Users/kaiha/Desktop/mshack/Muskebeers/app/qr-scanner-worker.min.js' cannot be accessed from origin 'null'.
+    // Because chrome doesnt let you run workers on local files.
+    // https://stackoverflow.com/a/23206866/8524651
     qrScanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
     qrScanner.start();
 }
@@ -84,11 +85,9 @@ function deinitQrCodeScanner() {
 }
 
 function getHtmlCodeForQrScanner () {
-    // const QrScanner = require('qr-scanner'); // if installed via package
-    // const QrScanner = require('path/to/qr-scanner.umd.min.js'); // if not installed via package
-    // do something with QrScanner
-    
-    return "<video style='width: 100%; min-height: 150px; height: 100%; background: #241;' id='" + QRCODE_VIDEO_ID + "'></video>";
+    return "<video" + 
+        " style='width: 100%; min-height: 150px; height: 100%; background: #241;' " + // TODO: Move style to class.
+        " id='" + QRCODE_VIDEO_ID + "'></video>";
 }
 
 function getHTMLCodeForQuestion () {

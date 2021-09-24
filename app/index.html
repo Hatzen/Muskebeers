@@ -15,13 +15,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-        <!-- QrCode Scanning https://github.com/nimiq/qr-scanner
-        <script src="js/qr-scanner-worker.min.js"></script>
-        <script src="js/qr-scanner.min.js"></script>
-        <script src="js/qr-scanner-worker.umd.min.js"></script>-->
-
-        <!-- <script type="module" src="js/qr-scanner.min.js"></script> -->
-        
+        <!-- QrCode Scanning https://github.com/nimiq/qr-scanner -->
         <script src="js/qr-scanner.umd.min.js"></script>
         
 
@@ -49,6 +43,7 @@
         <nav class="menu">
             <a href="#" onclick="setMainContent(getHTMLCodeForQuestion())" class="item_menu">Home</a>
             <a href="#" onclick="setMainContent('scoreboard')" class="item_menu">Score</a>
+            <a href="#" onclick="setMainContent(getHtmlCodeForQrScanner())" class="item_menu">QrCode</a>
         </nav>
         <main>
             Dummy content
