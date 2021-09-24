@@ -1,4 +1,4 @@
-import os, uuid
+import uuid
 from flask import Flask, render_template, session, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import database
@@ -47,9 +47,13 @@ def sessionTest():
 
 @app.route("/game")
 def game():
+    sid = session.get("id")
+    user = User.query.filter_by(session=sid).first()
+    if user is None:
+        return redirect(url_for("index"))
     attr = {
-        "session_id": session.get("id"),
-        "name": session.get("name")
+        "session_id": sid,
+        "name": user.get_name()
     }
     return render_template("game.html.j2", **attr)
 
