@@ -2,6 +2,8 @@ import os
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+import questions
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/lightning-talk.sqlite"
 create_db = not os.path.isfile("/tmp/lightning-talk.sqlite") # If the File does not exist, the schema needs to be created
@@ -20,6 +22,7 @@ if create_db:
     print("Creating DB")
     db.create_all()
 
+questions.init(app)
 # Run
 if __name__ == "__main__":
     kwargs = {
