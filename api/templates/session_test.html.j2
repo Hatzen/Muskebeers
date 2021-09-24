@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
         <script src="{{ url_for('static',filename='js/jquery-3.5.1.min.js') }}"></script>
         <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ url_for('static',filename='js/index.js') }}"></script>
     </head>
     <body class="container">
         <div class="row">
@@ -14,27 +13,13 @@
                 <table class="table table-striped" style="text-align: center;">
                     <thead>
                         <tr>
-                            <th>Table of Content</th>
+                            <th>Your Session</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <input id="input-username" type="text" placeholder="Enter a Username">
-                                    </div>
-                                    <div class="col-md-4 btn btn-primary" onclick="joinGame()">
-                                        Join
-                                    </div>
-                                </div>
-                            </td>
+                            <td>{{ session_id }}</td>
                         </tr>
-                        {% for next_title, next_link in content %}
-                        <tr>
-                            <td><a href="/{{ next_link }}">{{ next_title }}</a></td>
-                        </tr>
-                        {% endfor %}
                     </tbody>
                 </table>
             </div>
