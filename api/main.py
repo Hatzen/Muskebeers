@@ -1,11 +1,24 @@
 import questions
-import uuid
+import os, uuid, json
 from flask import Flask, render_template, session, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import database
 
+
+config = {
+    "sql-path": "//tmp/muskebeers.sqlite",
+    "host": "127.0.0.1"
+}
+config_path = __file__.replace("main.py", "config.json")
+if not os.path.isfile("config.json"):
+    with open(config_path, "w") as cfg_file:
+        json.dump(config, cfg_file, indent=4)
+else:
+    with open(config_path, "r") as cfg_file:
+        config = json.load(cfg_file)
+
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/lightning-talk.sqlite"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite://{config['sql-path']}"
 app.secret_key = str(uuid.uuid1())
 database.db = SQLAlchemy(app)
 database.init()
@@ -63,7 +76,7 @@ questions.init(app)
 # Run
 if __name__ == "__main__":
     kwargs = {
-        'host': '0.0.0.0',
-        'port': 5000
+        "host": f"{config['host']}",
+        "port": 5000
     }
     app.run(**kwargs)
