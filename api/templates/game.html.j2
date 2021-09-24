@@ -18,6 +18,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
+
+        <!-- QrCode Scanning https://github.com/nimiq/qr-scanner -->
+        <script src="{{ url_for('static',filename='js/qr-scanner.umd.min.js') }}"></script>
+
         <!-- Hamburger Menu incl. icons -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/menu.css') }}">
@@ -43,11 +47,9 @@
         <nav class="menu">
             <a href="#" onclick="setMainContent(getHTMLCodeForQuestion())" class="item_menu">Home</a>
             <a href="#" onclick="setMainContent('scoreboard')" class="item_menu">Score</a>
+            <a href="#" onclick="setMainContent(getHtmlCodeForQrScanner())" class="item_menu">QrCode</a>
         </nav>
         <main>
             Dummy content - User '{{ name }}'
         </main>
-        <footer>
-        </footer>
-    </body>
 </html>
