@@ -1,8 +1,9 @@
 import json
-from flask import Flask, request
+from flask import Flask, request, session
 from models.point import Point
 
 
+active_question = {} # Each SessionID has exactly one question: {sid -> question}
 features = []
 questions_path = __file__.replace(".py", ".json")
 with open(questions_path, "r") as questions_file:
@@ -26,18 +27,29 @@ def filter_for_categories(features, categories):
         features = list(filter(lambda f: category.capitalize() in f["properties"]["categories"], features))
     return features
 
+def filter_for_solved(features):
+    from database.user import Answers
+    answers = [a.question_id for a in Answers.query.filter_by(session=session.get("id", ""))]
+    features = list(filter(lambda f: f["properties"]["id"] not in answers, features))
+
 def init(app: Flask):
     @app.route('/question')
     def question():
         categories = request.args.getlist('categories')
-        lng, lat = request.args.getlist('position')
+        position = request.args.getlist('position')
+        lng, lat = position if len(position) == 2 else [0, 0]
         radius = float(request.args.get('radius', 1500))
-        feature = features
 
+        feature = filter_for_solved(features)
         feature = filter_for_categories(features, categories)
         feature = filter_for_distance(feature, Point(lng, lat), radius)
         return {"feature": feature, "args": request.args}
 
+    @app.route("/checkpoint-reached", methods=["POST"])
+    def checkpointReached():
+        data = request.form.to_dict()
+        position = data["position"]
+        Point.distance(Point(*position, ))
 
 if __name__ == "__main__":
     a = Point(7.628817718228859, 51.96275580625961)

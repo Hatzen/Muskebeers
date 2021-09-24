@@ -11,7 +11,8 @@
         "name": "Lambertikirche",
         "question": "Wo finde ich die drei Kaefige?",
         "categories": ["Kirche", "Sightseeing"],
-        "hints": ["Kirch", "Wiedertaeufer", ""]
+        "hints": ["Kirch", "Wiedertaeufer", ""],
+        "id": "0"
       }
     }, {
       "type": "Feature",
@@ -23,7 +24,8 @@
         "name": "Ludgerikreis",
         "question": "Wo ist der groesste Kreis?",
         "categories": ["Strasse"],
-        "hints": ["Kreisverkehr", "Hasen"]
+        "hints": ["Kreisverkehr", "Hasen"],
+        "id": "1"
       }
     }, {
       "type": "Feature",
@@ -35,7 +37,8 @@
         "name": "Rathaus",
         "question": "Wo gibt es eine Hand zu bestaunen?",
         "categories": ["Sightseeing"],
-        "hints": ["30 jaehriger Krieg", "Friedensvertrag"]
+        "hints": ["30 jaehriger Krieg", "Friedensvertrag"],
+        "id": "2"
       }
     }
   ]
