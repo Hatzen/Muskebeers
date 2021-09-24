@@ -1,7 +1,7 @@
 import math
 
 class Point:
-    earth_factor = 40000000 / 365
+    earth_factor = 40000000 / 360
 
     def __init__(self, lng, lat):
         self.lng = float(lng)
@@ -10,7 +10,7 @@ class Point:
     def distance(self, point):
         a = self.lng - point.lng
         b = self.lat - point.lat
-        return math.sqrt(a*a + b*b) * self.earth_factor
+        return (a**2 + b**2) ** 0.5 * self.earth_factor
 
 if __name__ == "__main__":
     a = Point(7.628817718228859, 51.96275580625961)

@@ -1,11 +1,12 @@
 import json
-from flask import Flask
-from flask import request
+from flask import Flask, request
 from models.point import Point
 
-f = open('questions.json',)
-features = json.load(f)['features']
-f.close()
+
+features = []
+questions_path = __file__.replace(".py", ".json")
+with open(questions_path, "r") as questions_file:
+    features = json.load(questions_file)["features"]
 
 def filter_for_distance(features, point, radius):
     accepable_distance_features = []
@@ -19,22 +20,24 @@ def filter_for_distance(features, point, radius):
     return accepable_distance_features
 
 def filter_for_categories(features, categories):
+    if len(categories) == 0:
+        return features
     for category in categories:
-        features = list(filter(lambda f: category in f['categories'], features))
+        features = list(filter(lambda f: category.capitalize() in f["properties"]["categories"], features))
     return features
 
 def init(app: Flask):
     @app.route('/question')
     def question():
-        categories = request.args.get('categories', [])
-        position = request.args.get('position', [7, 51])
-        radius = float(request.args.get('radius', 500))
+        categories = request.args.getlist('categories')
+        lng, lat = request.args.getlist('position')
+        radius = float(request.args.get('radius', 1500))
         feature = features
 
         feature = filter_for_categories(features, categories)
-        feature = filter_for_distance(feature, Point(position[0], position[1]), radius)
-        feature.append("")
-        return feature[0]
+        feature = filter_for_distance(feature, Point(lng, lat), radius)
+        return {"feature": feature, "args": request.args}
+
 
 if __name__ == "__main__":
     a = Point(7.628817718228859, 51.96275580625961)
