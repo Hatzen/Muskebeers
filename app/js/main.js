@@ -34,16 +34,32 @@ const dummyQuestions = [
  * Implementation
  */
 
+
+/**
+ * Request of Geolocation for current position in
+ * @param stand
+ */
+function currentPosition () {
+        if (navigator.geolocation) {
+        let stand = [];
+        //getCurrentPosition or watchPosition
+        navigator.geolocation.getCurrentPosition(function (position) {
+            stand.push(position.coords.latitude);
+            stand.push(position.coords.longitude);
+        })
+
+        return stand;
+}else{
+        return null;
+}}
 const STORAGE_KEY_CURRENT_QUESTION = "STORAGE_KEY_CURRENT_QUESTION";
 
 var currentQuestion = null;
 
 function initView () {
-    console.log("init View");
     if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
         getAndStorNewQuestion();
     }
-    debugger
     currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
     setMainContent(getHTMLCodeForQuestion())
 }
@@ -58,7 +74,6 @@ function getNextQuestion () {
 }
 
 function setMainContent(htmlCode) {
-    console.log("Change content");
     $("main").html(htmlCode);
     hideMenu();
 }
