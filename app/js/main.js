@@ -108,9 +108,11 @@ function getHtmlCodeForQrScanner () {
 
 function getHTMLCodeForQuestion () {
     let question = currentQuestion.properties.question;
-    return "<span>"
+    return "<center><h2 style='margin-top: 25%;'>"
         + question +
-        "</span>";
+        "</h2></center>" +
+        "<button type='button' class='btn btn-default'>Links</button>"+
+        "<button type='button' class='btn btn-default'>Links</button>";
 }
 
 $(document).ready(function() {
