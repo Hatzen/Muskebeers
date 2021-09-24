@@ -1,5 +1,7 @@
-$(document).ready(function() {
-	$("body").on('click', '.top', function() {
-		$("nav.menu").toggleClass("menu_show");
-	});
-});
+function toggleMenu() {
+    $("nav.menu").toggleClass("menu_show");
+}
+
+function hideMenu() {
+    $("nav.menu").removeClass("menu_show");
+}
