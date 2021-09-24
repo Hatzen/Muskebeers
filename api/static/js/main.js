@@ -105,16 +105,24 @@
          " style='width: 100%; min-height: 150px; height: 100%; background: #241;' " + // TODO: Move style to class.
          " id='" + QRCODE_VIDEO_ID + "'></video>";
  }
- 
- function getHTMLCodeForQuestion () {
-     let question = currentQuestion.properties.question;
-     return "<center><h2 style='margin-top: 25%;'>"
-         + question +
-         "</h2></center>" +
-         "<button type='button' class='btn btn-default'>Links</button>"+
-         "<button type='button' class='btn btn-default'>Links</button>";
- }
- 
+
+function getHTMLCodeForQuestion () {
+    let question = currentQuestion.properties.question;
+    return "<center><h2 style='margin-top: 25%;'>"
+        + question +
+        "</h2></center>" +
+        "<div style=' display: flex;'> <img src='pictures/qr-code.png' height='90'  alt='QR-Code' " +
+        "onclick='alert(currentQuestion)'></div>" +
+        "<Button style=' display: outside; left: 50%; color: white; background-color: #3e739d;' onclick='skipQuestion()'>skip</Button>"
+}
+
+var score = 10;
+function skipQuestion () {
+    if(score >= 5){
+        score -= 5;
+        console.log(score);
+    }
+}
  $(document).ready(function() {
      $("body").on('click', '.top', toggleMenu);
      initView();
