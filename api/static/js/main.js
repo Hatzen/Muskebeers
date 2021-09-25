@@ -65,8 +65,9 @@
     let width = right - left
     let height = top - bottom
     let user = document.getElementById("user-position")
-    if (lng < left || lng > right || lat < top || lat > bottom){
+    if (lng < left || lng > right || lat > top || lat < bottom){
         user.style.display = "None"
+        return
     }
     user.style.display = null
     new_left = `${3 + 92 * (lng - left) / width}%`
@@ -174,7 +175,7 @@ function getHTMLCodeForQuestion () {
         + text +
         "</h2></center>" +
         "<div style=' display: flex;'> <img src='../static/pictures/qr-code.png' height='90'  alt='QR-Code' " +
-        "onclick='alert(currentQuestion)'></div>" +
+        "onclick='setMainContent(getHtmlCodeForQrScanner())'></div>" +
         "<div><Button class='btn' onclick='skipQuestion()' style='position: relative;left: 80%;'>skip</Button></div>" +
         "<div class='row'>" +
         "<div class='col-md-10'>" +
