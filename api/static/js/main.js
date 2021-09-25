@@ -72,7 +72,7 @@
   */
  function getColor(value){
     // var hue=((1-value)*120).toString(10);
-    return `rgba(${255*(1-value)}, 0, ${255*value})`
+    return `rgba(${255*(1-value)}, ${150*value}, ${255*value})`
 }
 
  function receivedNewQuestion (question) {
@@ -156,7 +156,10 @@ function getHTMLCodeForQuestion () {
         "</h2></center>" +
         "<div style=' display: flex;'> <img src='../static/pictures/qr-code.png' height='90'  alt='QR-Code' " +
         "onclick='alert(currentQuestion)'></div>" +
-        "<Button style=' display: outside; left: 50%; color: white; background-color: #3e739d;' onclick='skipQuestion()'>skip</Button>"
+        "<Button style=' display: outside; left: 50%; color: white; background-color: #3e739d;' onclick='skipQuestion()'>skip</Button>" +
+        "<div class='row'>" +
+        "<div class='col-md-10'>" +
+        "<img src='/static/images/stadtplan.png' style='width: 100%;'></div></div>"
 }
 
 function getHTMLCodeForScoreboard() {
