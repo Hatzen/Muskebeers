@@ -61,7 +61,8 @@
   * @param {double} value value between 0 and infinity 
   */
  function getColorForValue (value) {
-    let normalizedValue = Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM;
+    var x = 2 * Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM - 1
+    let normalizedValue = 0.5 * (1 + x / (1 + x**5));
     return getColor(normalizedValue);
  }
 
@@ -70,8 +71,8 @@
   * @returns color string
   */
  function getColor(value){
-    var hue=((1-value)*120).toString(10);
-    return ["hsl(",hue,",100%,50%)"].join("");
+    // var hue=((1-value)*120).toString(10);
+    return `rgba(${255*(1-value)}, 0, ${255*value})`
 }
 
  function receivedNewQuestion (question) {
@@ -102,10 +103,14 @@
         deinitQrCodeScanner();
      }
      $("main").html(htmlCode);
-     
+
      // When there is a video element we have the qr view activated.
      if ($("#" + QRCODE_VIDEO_ID).length) {
          initQrCodeScanner();
+     }
+     if ($("#highscore") !== null){
+        requestCurrentScore()
+        updateUserScore()
      }
      hideMenu();
  }
@@ -118,11 +123,13 @@
      // https://stackoverflow.com/a/23206866/8524651
     QrScanner.WORKER_PATH = "../static/js/qr-scanner-worker.min.js";
      qrScanner = new QrScanner(videoElem, result => {
+        qrScanner.stop()
         data = {"scanned_qid": result}
         $.post("/checkpoint-scanned", data, function(data){
             if (data.status === "OK"){
                 setMainContent(getHTMLCodeForQuestion())
             }else{
+                qrScanner.start();
                 alert(data.status)
             }
         })
@@ -152,6 +159,22 @@ function getHTMLCodeForQuestion () {
         "<Button style=' display: outside; left: 50%; color: white; background-color: #3e739d;' onclick='skipQuestion()'>skip</Button>"
 }
 
+function getHTMLCodeForScoreboard() {
+    return "<table class='table table-striped'><thead>" +
+        "<th></th><th>Player</th><th>Score</th></thead>" +
+        "<tbody id='highscore'>" +
+        "<tr><td></td><td id='user'></td><td id='score'></td></tr>" +
+        "</tbody></table>"
+}
+
+function updateUserScore(){
+    $.get("get-score", function (data) {
+        if (data.status === "OK") {
+            $("#user").text(data.user)
+            $("#score").text(data.score)
+        }
+    })
+}
 
 function skipQuestion () {
     if(credits >= 5){

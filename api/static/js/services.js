@@ -43,3 +43,15 @@ async function requestCheckpointReached(callback) {
         }
     }, "json")
 }
+
+async function requestCurrentScore() {
+    // TODO: add parameter &categories=strasse
+    let params = null // TODO: pass params instead of string concatination
+    $.get("/get-score", params, function(data) {
+        if (data.status === "OK"){
+            console.log(`User: ${data.user}, Score: ${data.score}`)
+        } else if (data.feature != null) {
+            console.error("Error getting question")
+        }
+    }, "json")
+}

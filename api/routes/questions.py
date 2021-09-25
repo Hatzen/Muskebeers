@@ -7,7 +7,7 @@ active_question = {} # Each SessionID has exactly one question: {sid -> question
 features = []
 questions_path = __file__.replace("routes/questions.py", "static/data/questions.geojson")
 with open(questions_path, "r") as questions_file:
-    features = json.load(questions_file)["features"]
+    features = json.load(questions_file, encoding="utf-8")["features"]
 
 def filter_for_distance(features, point, radius):
     accepable_distance_features = []
