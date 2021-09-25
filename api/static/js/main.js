@@ -201,6 +201,7 @@ function updateUserScore(){
 
 function skipQuestion () {
     if(credits >= 5){
+        requestNextQuestion()
         credits -= 5;
         if(credits <= 10){
         alert("Du hast noch " + credits + " Credits übrig. Nutze Sie weise!")

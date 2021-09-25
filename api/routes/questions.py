@@ -4,6 +4,7 @@ from models.point import Point
 
 
 active_question = {} # Each SessionID has exactly one question: {sid -> question}
+skipped_questions = {}
 features = []
 questions_path = __file__.replace("routes/questions.py", "static/data/questions.geojson")
 with open(questions_path, "r", encoding="utf-8") as questions_file:
@@ -30,19 +31,34 @@ def filter_for_categories(features, categories):
 def filter_for_solved(features):
     from database.user import Answers
     answers = [a.question_id for a in Answers.query.filter_by(session=session.get("id", ""))]
-    features = list(filter(lambda f: f["properties"]["id"] not in answers, features))
+    return list(filter(lambda f: f["properties"]["id"] not in answers, features))
+
+def filter_for_skipped_questions(features):
+    skipped_features = skipped_questions.get(session["id"], [])
+    new_features = list(filter(lambda f: f["properties"]["id"] not in skipped_features, features))
+    if len(new_features) > 0:
+        return new_features
+    return features
 
 def init(app: Flask):
 
     @app.route('/question')
     def question():
+        from database.user import Answers
         categories = request.args.getlist('categories')
         position = request.args.getlist('position')
         lng, lat = position if len(position) == 2 else [0, 0]
         radius = float(request.args.get('radius', 150000))
 
+        current_question = active_question.get(session["id"], None)
+        if current_question is not None:
+            answer = Answers.query.filter_by(session=session["id"], question_id=current_question).first()
+            if answer is None:
+                skipped_questions[session["id"]] = skipped_questions.get(session["id"], []).append(current_question.question)
+
         feature = filter_for_solved(features)
-        feature = filter_for_categories(features, categories)
+        feature = filter_for_skipped_questions(feature)
+        feature = filter_for_categories(feature, categories)
         feature = filter_for_distance(feature, Point(lng, lat), radius)
         if len(feature) == 0:
             return {"status": "Failed - No Feature Found", "feature": None, "args": request.args}
