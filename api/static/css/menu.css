@@ -21,14 +21,27 @@ header > .top {
 	position: absolute;
 	left: 20px;
 }
+header > .top2 {
+	position: absolute;
+	right: 20px;
+}
 header > .top a.menu_icon i {
 	color: #000;
 	font-size: 40px;
 	padding-top: 5px;
 	transition: .2s ease;
 }
-header > .top a.menu_icon:hover i {
+header > a.menu_icon:hover i {
+	color: #000;
+	font-size: 40px;
+	padding-top: 5px;
+	transition: .2s ease;
+}
+
+a.menu_right{
 	color: #fff;
+	margin-left: 80%;
+	margin-top: 5%;
 }
 nav.menu {
 	width: 300px;

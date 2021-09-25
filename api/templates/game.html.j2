@@ -52,6 +52,9 @@
             <div class="top">
                 <a href="#" class="menu_icon"><i class="material-icons">dehaze</i></a>
             </div>
+            <div class="top2">
+            <a class="menu_right">&copy</a>
+            </div>
         </header>
         <nav class="menu">
             <a href="#" onclick="setMainContent(getHTMLCodeForQuestion())" class="item_menu">Home</a>
@@ -59,6 +62,8 @@
             <a href="#" onclick="setMainContent(getHtmlCodeForQrScanner())" class="item_menu">QrCode</a>
         </nav>
         <main>
-            Dummy content - User '{{ name }}'
+            <a >Hallo {{ name }}, um die Schnitzeljagd zu Starten klicke auf den Button</a>
+            <Button href="#" onclick="setMainContent(getHTMLCodeForQuestion())" class="item_menu">Home</Button>
+
         </main>
 </html>
