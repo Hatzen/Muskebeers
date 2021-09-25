@@ -42,6 +42,7 @@
     let targetLatitude = currentQuestion.geometry.coordinates[1];
     let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude));
     console.info(`Current Distance: ${distanceToQuestionTarget}`)
+    updateUserPosition(location.longitude, location.latitude)
     if (distanceToQuestionTarget <= currentQuestion.properties.buffer) {
         requestCheckpointReached(function () {
             if (currentQuestion.alreadyReached == true ) {
@@ -54,6 +55,24 @@
     }
     let currentColor = getColorForValue(distanceToQuestionTarget);
     $("body").css({'background-color': currentColor});
+ }
+
+ function updateUserPosition(lng, lat){
+    let left = 7.5956
+    let right = 7.652
+    let top = 51.975367
+    let bottom = 51.944905
+    let width = right - left
+    let height = top - bottom
+    let user = document.getElementById("user-position")
+    if (lng < left || lng > right || lat < top || lat > bottom){
+        user.style.display = "None"
+    }
+    user.style.display = null
+    new_left = `${3 + 92 * (lng - left) / width}%`
+    new_top = `${1 + 98 * (lat - bottom) / height}%`
+    user.style.left = new_left
+    user.style.top = new_top
  }
 
  /**
@@ -156,10 +175,11 @@ function getHTMLCodeForQuestion () {
         "</h2></center>" +
         "<div style=' display: flex;'> <img src='../static/pictures/qr-code.png' height='90'  alt='QR-Code' " +
         "onclick='alert(currentQuestion)'></div>" +
-        "<Button class='btn' onclick='skipQuestion()'>skip</Button>" +
+        "<div><Button class='btn' onclick='skipQuestion()' style='position: relative;left: 80%;'>skip</Button></div>" +
         "<div class='row'>" +
         "<div class='col-md-10'>" +
-        "<img src='/static/images/stadtplan.png' style='width: 100%;'></div></div>"
+        "<div><div id='user-position' style='position: absolute;background-color: purple;width: 10px;height: 10px;z-index: 1;'>" +
+        "</div><img id='map' src='/static/images/stadtkarte.png' style='width: 100%;padding-top: 10px'></div></div></div>"
 }
 
 function getHTMLCodeForScoreboard() {
