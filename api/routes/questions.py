@@ -5,7 +5,7 @@ from models.point import Point
 
 active_question = {} # Each SessionID has exactly one question: {sid -> question}
 features = []
-questions_path = __file__.replace(".py", ".json")
+questions_path = "../static/data/questions.geojson"
 with open(questions_path, "r") as questions_file:
     features = json.load(questions_file)["features"]
 
