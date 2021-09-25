@@ -24,13 +24,35 @@ async function requestNewQuestionByServer(location, callback) {
     let params = null // TODO: pass params instead of string concatination
     $.get("/question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000", params, function(data) {
         debugger
+        if (data.feature != null || data.status === "OK"){
+            callback(data.feature)
+        } else if (data.feature != null) {
+            console.error("Error getting question")
+        }
+    }, "json")
+}
+
+/**
+ * 
+ * @param {function(data: {score: int, ...}) } callback 
+ */
+async function requestCheckpointReached(callback) {
+    // TODO: add parameter &categories=strasse
+    let params = {} // TODO: pass params instead of string concatination
+    debugger
+    $.post("/checkpoint-reached", params, function (data) {
+        debugger
         if (data.status === "OK"){
             callback(data)
         }
     }, "json")
 }
 
-async function requestCheckpointReached(callback) {
+/**
+ * 
+ * @param {function(data: {score: int, ...}) } callback 
+ */
+ async function requestCheckpointReached(callback) {
     // TODO: add parameter &categories=strasse
     let params = {} // TODO: pass params instead of string concatination
     debugger

@@ -41,6 +41,7 @@
  var qrScanner = null;
  
  function initView () {
+     setMainContent(getHTMLCodeForQuestion())
      if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
         requestNextQuestion();
      }
@@ -52,22 +53,29 @@
   */
  function updateGeoLocation (location) {
     if (currentQuestion == null) {
-        console.error("Current question is null! UpdateGeoLocation cannot calculate distance.")
+        console.error("Current question is null! UpdateGeoLocation cannot calculate distance.");
     }
-    let targetLongitude = currentQuestion.geometry.coordinates[0]
-    let targetLatitude = currentQuestion.geometry.coordinates[1]
-    let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude))
+    let targetLongitude = currentQuestion.geometry.coordinates[0];
+    let targetLatitude = currentQuestion.geometry.coordinates[1];
+    let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude));
     if (distanceToQuestionTarget <= currentQuestion.buffer) {
+<<<<<<< HEAD
         requestCheckpointReached(function () {
             if (currentQuestion.alreadyReached == true ) {
                 currentQuestion.alreadyReached = true;
                 credits += 5;
                 alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!")
                 alert("Du hast 5 Credits erhalten");
+=======
+        requestCheckpointReached(function (data) {
+            if (currentQuestion.alreadyReached == true && data.score != null) {
+                currentQuestion.alreadyReached = true;
+                alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!");
+>>>>>>> 8bb57afb7b69b39bb0fa720f1287d88a6948e872
             }
         })
     }
-    let currentColor = getColorForValue(distanceToQuestionTarget)
+    let currentColor = getColorForValue(distanceToQuestionTarget);
     $("body").css({'background-color': currentColor});
  }
 
@@ -76,8 +84,8 @@
   * @param {double} value value between 0 and infinity 
   */
  function getColorForValue (value) {
-    let normalizedValue = Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM
-    return getColor(normalizedValue)
+    let normalizedValue = Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM;
+    return getColor(normalizedValue);
  }
 
  /**
@@ -90,16 +98,17 @@
 }
 
  function receivedNewQuestion (question) {
+     debugger
     localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(question));
     if (isGeoLocationSupported()) {
-        watchPosition(updateGeoLocation)
+        watchPosition(updateGeoLocation);
         currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-        setMainContent(getHTMLCodeForQuestion())
+        setMainContent(getHTMLCodeForQuestion());
      }
  }
  
  async function requestNextQuestion () {
-    const dummyDebug = false 
+    const dummyDebug = false;
     if (dummyDebug) {
         receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
     } else {
@@ -110,14 +119,17 @@
             };
             location.longitude = position.coords.longitude;
             location.latitude = position.coords.latitude;
-            requestNewQuestionByServer(location, receivedNewQuestion)
-        })
+            requestNewQuestionByServer(location, receivedNewQuestion);
+        });
     }
  }
  
  function setMainContent(htmlCode) {
      if (!isGeoLocationSupported()) {
         $("main").html('<center> Please enable location detection</center>');
+     }
+     if ($("#" + QRCODE_VIDEO_ID).length) {
+        deinitQrCodeScanner();
      }
      $("main").html(htmlCode);
      
@@ -134,10 +146,14 @@
      // 1523qr-scanner.umd.min.js:14 DOMException: Failed to construct 'Worker': Script at 'file:///C:/Users/kaiha/Desktop/mshack/Muskebeers/app/qr-scanner-worker.min.js' cannot be accessed from origin 'null'.
      // Because chrome doesnt let you run workers on local files.
      // https://stackoverflow.com/a/23206866/8524651
-     qrScanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+    QrScanner.WORKER_PATH = "../static/js/qr-scanner-worker.min.js";
+     qrScanner = new QrScanner(videoElem, result => {
+         alert('decoded qr code:' + result)
+     });
      qrScanner.start();
  }
  
+ // TODO: Use.
  function deinitQrCodeScanner() {
      qrScanner.stop();
      qrScanner = null;
