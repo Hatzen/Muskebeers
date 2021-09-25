@@ -41,6 +41,7 @@
  var qrScanner = null;
  
  function initView () {
+     setMainContent(getHTMLCodeForQuestion())
      if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
         requestNextQuestion();
      }
@@ -101,21 +102,26 @@
     if (dummyDebug) {
         receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
     } else {
+        debugger
         getCurrentPosition(function (position) {
+            debugger
             let location = {
                 latitude: null,
                 longitude: null,
             };
             location.longitude = position.coords.longitude;
             location.latitude = position.coords.latitude;
-            requestNewQuestionByServer(location, receivedNewQuestion)
-        })
+            requestNewQuestionByServer(location, receivedNewQuestion);
+        });
     }
  }
  
  function setMainContent(htmlCode) {
      if (!isGeoLocationSupported()) {
         $("main").html('<center> Please enable location detection</center>');
+     }
+     if ($("#" + QRCODE_VIDEO_ID).length) {
+        deinitQrCodeScanner();
      }
      $("main").html(htmlCode);
      
@@ -132,10 +138,14 @@
      // 1523qr-scanner.umd.min.js:14 DOMException: Failed to construct 'Worker': Script at 'file:///C:/Users/kaiha/Desktop/mshack/Muskebeers/app/qr-scanner-worker.min.js' cannot be accessed from origin 'null'.
      // Because chrome doesnt let you run workers on local files.
      // https://stackoverflow.com/a/23206866/8524651
-     qrScanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+    QrScanner.WORKER_PATH = "../static/js/qr-scanner-worker.min.js";
+     qrScanner = new QrScanner(videoElem, result => {
+         alert('decoded qr code:' + result)
+     });
      qrScanner.start();
  }
  
+ // TODO: Use.
  function deinitQrCodeScanner() {
      qrScanner.stop();
      qrScanner = null;
