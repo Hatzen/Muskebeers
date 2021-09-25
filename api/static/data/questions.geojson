@@ -12,7 +12,8 @@
         "question": "Wo finde ich die drei Käfige?",
         "categories": ["Kirche", "Sightseeing"],
         "hints": ["Kirche", "Wiedertaeufer"],
-        "id": "a267a624-4734-428f-af4b-5ec49fd27e10"
+        "id": "a267a624-4734-428f-af4b-5ec49fd27e10",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
