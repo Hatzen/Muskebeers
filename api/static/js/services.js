@@ -20,6 +20,7 @@
  */
 async function requestNewQuestionByServer(location, callback) {
     // TODO: add parameter &categories=strasse
+    debugger
     let params = null // TODO: pass params instead of string concatination
     $.get("/question?position=" + location.longitude + "&position=" + location.latitude, params, function(data) {
         debugger

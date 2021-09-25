@@ -93,10 +93,15 @@
     if (dummyDebug) {
         receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
     } else {
-        debugger
-        const result = await getCurrentPosition()
-        debugger
-        requestNewQuestionByServer(result, receivedNewQuestion)
+        getCurrentPosition(function (position) {
+            let location = {
+                latitude: null,
+                longitude: null,
+            };
+            location.longitude = position.coords.longitude;
+            location.latitude = position.coords.latitude;
+            requestNewQuestionByServer(location, receivedNewQuestion)
+        })
     }
  }
  
