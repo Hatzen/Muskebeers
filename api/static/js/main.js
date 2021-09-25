@@ -52,21 +52,20 @@
   */
  function updateGeoLocation (location) {
     if (currentQuestion == null) {
-        console.error("Current question is null! UpdateGeoLocation cannot calculate distance.")
+        console.error("Current question is null! UpdateGeoLocation cannot calculate distance.");
     }
-    let targetLongitude = currentQuestion.geometry.coordinates[0]
-    let targetLatitude = currentQuestion.geometry.coordinates[1]
-    let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude))
+    let targetLongitude = currentQuestion.geometry.coordinates[0];
+    let targetLatitude = currentQuestion.geometry.coordinates[1];
+    let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude));
     if (distanceToQuestionTarget <= currentQuestion.buffer) {
         requestCheckpointReached(function (data) {
             if (currentQuestion.alreadyReached == true && data.score != null) {
-                currentQuestion.alreadyReached = true
-                score += data.score
-                alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!")
+                currentQuestion.alreadyReached = true;
+                alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!");
             }
         })
     }
-    let currentColor = getColorForValue(distanceToQuestionTarget)
+    let currentColor = getColorForValue(distanceToQuestionTarget);
     $("body").css({'background-color': currentColor});
  }
 
@@ -75,8 +74,8 @@
   * @param {double} value value between 0 and infinity 
   */
  function getColorForValue (value) {
-    let normalizedValue = Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM
-    return getColor(normalizedValue)
+    let normalizedValue = Math.min(value, MUENSTER_RELEVANT_RADIUS_IN_KM) / MUENSTER_RELEVANT_RADIUS_IN_KM;
+    return getColor(normalizedValue);
  }
 
  /**
@@ -91,14 +90,14 @@
  function receivedNewQuestion (question) {
     localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(question));
     if (isGeoLocationSupported()) {
-        watchPosition(updateGeoLocation)
+        watchPosition(updateGeoLocation);
         currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-        setMainContent(getHTMLCodeForQuestion())
+        setMainContent(getHTMLCodeForQuestion());
      }
  }
  
  async function requestNextQuestion () {
-    const dummyDebug = false 
+    const dummyDebug = false;
     if (dummyDebug) {
         receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
     } else {
