@@ -21,10 +21,28 @@
 async function requestNewQuestionByServer(location, callback) {
     // TODO: add parameter &categories=strasse
     let params = null // TODO: pass params instead of string concatination
-    $.get("/question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000000", params, function(data) {
+    $.get("/active-question", params, function(data) {
+        if (data.status === "OK"){
+            callback(data.feature)
+        } else {
+            $.get("/question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000000", params, function(data) {
+                if (data.feature != null || data.status === "OK"){
+                    callback(data.feature)
+                } else if (data.feature != null) {
+                    console.error("Error getting question")
+                }
+            }, "json")
+        }
+    }, "json")
+}
+
+async function skipQuestionByServer(location, callback) {
+    // TODO: add parameter &categories=strasse
+    let params = null // TODO: pass params instead of string concatination
+    $.get("/skip-question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000000", params, function(data) {
         if (data.feature != null || data.status === "OK"){
             callback(data.feature)
-        } else if (data.feature != null) {
+        } else {
             console.error("Error getting question")
         }
     }, "json")

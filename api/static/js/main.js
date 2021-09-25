@@ -106,12 +106,24 @@
  }
  
  async function requestNextQuestion () {
+    console.log("requestNextQuestion()")
     getCurrentPosition(function (position) {
         let location = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
         };
         requestNewQuestionByServer(location, receivedNewQuestion);
+    });
+ }
+
+ async function skipQuestion () {
+    console.log("skipQuestion()")
+    getCurrentPosition(function (position) {
+        let location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+        };
+        skipQuestionByServer(location, receivedNewQuestion);
     });
  }
  
@@ -176,7 +188,7 @@ function getHTMLCodeForQuestion () {
         "</h2></center>" +
         "<div style=' display: flex;'> <img src='../static/pictures/qr-code.png' height='90'  alt='QR-Code' " +
         "onclick='setMainContent(getHtmlCodeForQrScanner())'></div>" +
-        "<div><Button class='btn' onclick='skipQuestion()' style='position: relative;left: 80%;'>skip</Button></div>" +
+        "<div><Button class='btn' onclick='skipQuestionButton()' style='position: relative;left: 80%;'>skip</Button></div>" +
         "<div class='row'>" +
         "<div class='col-md-10'>" +
         "<div><div id='user-position' style='position: absolute;background-color: purple;width: 10px;height: 10px;z-index: 1;'>" +
@@ -200,9 +212,9 @@ function updateUserScore(){
     })
 }
 
-function skipQuestion () {
+function skipQuestionButton () {
     if(credits >= 5){
-        requestNextQuestion()
+        skipQuestion()
         credits -= 5;
         if(credits <= 10){
         alert("Du hast noch " + credits + " Credits übrig. Nutze Sie weise!")

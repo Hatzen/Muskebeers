@@ -6,9 +6,11 @@ from models.point import Point
 active_question = {} # Each SessionID has exactly one question: {sid -> question}
 skipped_questions = {}
 features = []
+feature_dict = {}
 questions_path = __file__.replace("routes/questions.py", "static/data/questions.geojson")
 with open(questions_path, "r", encoding="utf-8") as questions_file:
     features = json.load(questions_file)["features"]
+    feature_dict = {f["properties"]["id"]: f for f in features}
 
 def filter_for_distance(features, point, radius):
     accepable_distance_features = []
@@ -50,12 +52,6 @@ def init(app: Flask):
         lng, lat = position if len(position) == 2 else [0, 0]
         radius = float(request.args.get('radius', 150000))
 
-        current_question = active_question.get(session["id"], None)
-        if current_question is not None:
-            answer = Answers.query.filter_by(session=session["id"], question_id=current_question).first()
-            if answer is None:
-                skipped_questions[session["id"]] = skipped_questions.get(session["id"], []).append(current_question.question)
-
         feature = filter_for_solved(features)
         feature = filter_for_skipped_questions(feature)
         feature = filter_for_categories(feature, categories)
@@ -69,8 +65,21 @@ def init(app: Flask):
     def getActiveQuestion():
         sid = session["id"]
         if sid in active_question:
-            return {"status": "OK", "question": active_question[sid]}
-        return {"status": "Failed - No Active Question", "question": None}
+            return {"status": "OK", "feature": feature_dict.get(active_question[sid], None)}
+        return {"status": "Failed - No Active Question", "feature": None}
+
+    @app.route("/skip-question")
+    def skipQuestion():
+        from database.user import Answers
+        current_question = active_question.get(session["id"], None)
+        if current_question is None:
+            return {"status": "Failed - Nothing to Skip", "feature": None}
+
+        answer = Answers.query.filter_by(session=session["id"], question_id=current_question).first()
+        if answer is None:
+            skipped_questions[session["id"]] = skipped_questions.get(session["id"], []).append(current_question.question)
+
+        return question()
 
     @app.route("/checkpoint-reached", methods=["POST"])
     def checkpointReached():
@@ -110,6 +119,8 @@ def init(app: Flask):
         a.score = 3
         db.session.commit()
         return {"status": "OK", "score": a.score}
+
+
 
 if __name__ == "__main__":
     a = Point(7.628817718228859, 51.96275580625961)
