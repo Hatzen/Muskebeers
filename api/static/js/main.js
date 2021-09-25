@@ -1,8 +1,8 @@
 /**
  * DEV Fields
  */
-
- var counter = 0
+ var credits = 10;
+ var counter = 0;
  const dummyQuestions = [
      {
          "type": "Feature",
@@ -58,11 +58,12 @@
     let targetLatitude = currentQuestion.geometry.coordinates[1]
     let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude))
     if (distanceToQuestionTarget <= currentQuestion.buffer) {
-        requestCheckpointReached(function (data) {
-            if (currentQuestion.alreadyReached == true && data.score != null) {
-                currentQuestion.alreadyReached = true
-                score += data.score
+        requestCheckpointReached(function () {
+            if (currentQuestion.alreadyReached == true ) {
+                currentQuestion.alreadyReached = true;
+                credits += 5;
                 alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!")
+                alert("Du hast 5 Credits erhalten");
             }
         })
     }
@@ -149,9 +150,9 @@
  }
 
 function getHTMLCodeForQuestion () {
-    if (currentQuestion == null) {
-        return "<center>loading..</center>"
-    }
+    // if (currentQuestion == null) {
+    //     return "<center>loading..</center>"
+    // }
     let question = currentQuestion.properties.question;
     return "<center><h2 style='margin-top: 25%;'>"
         + question +
@@ -161,11 +162,15 @@ function getHTMLCodeForQuestion () {
         "<Button style=' display: outside; left: 50%; color: white; background-color: #3e739d;' onclick='skipQuestion()'>skip</Button>"
 }
 
-var score = 10;
+
 function skipQuestion () {
-    if(score >= 5){
-        score -= 5;
-        console.log(score);
+    if(credits >= 5){
+        credits -= 5;
+        if(credits <= 10){
+        alert("Du hast noch " + credits + " Credits übrig. Nutze Sie weise!")
+        }else{
+            alert("Du hast noch " + credits + " übrig. Wow ist das noch viel!")
+        }
     }
 }
  $(document).ready(function() {
