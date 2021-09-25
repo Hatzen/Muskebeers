@@ -88,12 +88,15 @@
      }
  }
  
- function requestNextQuestion () {
+ async function requestNextQuestion () {
     const dummyDebug = false 
     if (dummyDebug) {
         receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
     } else {
-        requestNewQuestionByServer(getCurrentPosition(), receivedNewQuestion)
+        debugger
+        const result = await getCurrentPosition()
+        debugger
+        requestNewQuestionByServer(result, receivedNewQuestion)
     }
  }
  

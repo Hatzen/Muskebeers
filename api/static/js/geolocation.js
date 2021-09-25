@@ -21,17 +21,24 @@ const MUENSTER_RELEVANT_RADIUS_IN_KM = 2.5
  * Request of Geolocation for current position in
  * @returns [longitude, latitude]
  */
-function getCurrentPosition () {
+async function getCurrentPosition () {
     if (navigator.geolocation) {
-        let location = {
-            latitude: null,
-            longitude: null,
-        };
-        navigator.geolocation.getCurrentPosition(function (position) {
-            location.longitude = position.coords.longitude;
-            location.latitude = position.coords.latitude;
-        })
-        return location;
+        let promise = new Promise(resolve => {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let location = {
+                    latitude: null,
+                    longitude: null,
+                };
+                location.longitude = position.coords.longitude;
+                location.latitude = position.coords.latitude;
+                resolve(location);
+            })
+        });
+        
+        debugger
+        const result = await promise;
+        debugger
+        return result;
     } else{
         return null;
     }
