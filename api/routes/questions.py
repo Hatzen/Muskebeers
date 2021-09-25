@@ -44,9 +44,9 @@ def init(app: Flask):
         feature = filter_for_categories(features, categories)
         feature = filter_for_distance(feature, Point(lng, lat), radius)
         if len(feature) == 0:
-            return {"feature": None, "args": request.args}
+            return {"status": "Failed - No Feature Found", "feature": None, "args": request.args}
         active_question[session["id"]] = feature[0]["properties"]["id"]
-        return {"feature": feature[0], "args": request.args}
+        return {"status": "OK", "feature": feature[0], "args": request.args}
 
     @app.route("/checkpoint-reached", methods=["POST"])
     def checkpointReached():
