@@ -23,7 +23,7 @@ const MUENSTER_RELEVANT_RADIUS_IN_KM = 2.5
  */
 function getCurrentPosition (callback) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(callback)
+        navigator.geolocation.getCurrentPosition(callback);
     } else {
         callback(null)
     }

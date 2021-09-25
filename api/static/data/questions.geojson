@@ -12,7 +12,7 @@
         "question": "Wo finde ich die drei Käfige?",
         "categories": ["Kirche", "Sightseeing"],
         "hints": ["Kirche", "Wiedertaeufer"],
-        "id": "8972d9a5-ac8c-4414-b38b-736a09431a70"
+        "id": "a267a624-4734-428f-af4b-5ec49fd27e10"
       }
     }, {
       "type": "Feature",
@@ -25,7 +25,7 @@
         "question": "Wo können Riesen Billiard spielen?",
         "categories": ["Sightseeing"],
         "hints": ["Skulpturprojekt", "Wasser"],
-        "id": "55bee5ee-ebc2-41cb-a0a6-717e0ac54618"
+        "id": "538a967b-c96e-4505-a19f-e986c1b9778d"
       }
     }, {
       "type": "Feature",
@@ -38,7 +38,7 @@
         "question": "Wo gibt es eine Hand zu bestaunen?",
         "categories": ["Sightseeing"],
         "hints": ["30 jähriger Krieg", "Friedensvertrag"],
-        "id": "d072295f-e045-4dc0-a50a-a8d54e69356c"
+        "id": "2c748008-5aa1-4c55-8917-8c1040507c55"
       }
     }, {
       "type": "Feature",
