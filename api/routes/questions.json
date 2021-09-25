@@ -12,7 +12,7 @@
         "question": "Wo finde ich die drei Kaefige?",
         "categories": ["Kirche", "Sightseeing"],
         "hints": ["Kirch", "Wiedertaeufer", ""],
-        "id": "0"
+        "id": "a267a624-4734-428f-af4b-5ec49fd27e10"
       }
     }, {
       "type": "Feature",
@@ -25,7 +25,7 @@
         "question": "Wo ist der groesste Kreis?",
         "categories": ["Strasse"],
         "hints": ["Kreisverkehr", "Hasen"],
-        "id": "1"
+        "id": "538a967b-c96e-4505-a19f-e986c1b9778d"
       }
     }, {
       "type": "Feature",
@@ -38,7 +38,7 @@
         "question": "Wo gibt es eine Hand zu bestaunen?",
         "categories": ["Sightseeing"],
         "hints": ["30 jaehriger Krieg", "Friedensvertrag"],
-        "id": "2"
+        "id": "2c748008-5aa1-4c55-8917-8c1040507c55"
       }
     }
   ]
