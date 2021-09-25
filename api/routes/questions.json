@@ -9,23 +9,23 @@
       },
       "properties": {
         "name": "Lambertikirche",
-        "question": "Wo finde ich die drei Kaefige?",
+        "question": "Wo finde ich die drei Käfige?",
         "categories": ["Kirche", "Sightseeing"],
-        "hints": ["Kirch", "Wiedertaeufer", ""],
-        "id": "0"
+        "hints": ["Kirche", "Wiedertaeufer"],
+        "id": "8972d9a5-ac8c-4414-b38b-736a09431a70"
       }
     }, {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [7.626444, 51.962748]
+        "coordinates": [7.618151724852883, 51.956984212421915]
       },
       "properties": {
-        "name": "Ludgerikreis",
-        "question": "Wo ist der groesste Kreis?",
-        "categories": ["Strasse"],
-        "hints": ["Kreisverkehr", "Hasen"],
-        "id": "1"
+        "name": "Aaseekugeln",
+        "question": "Wo können Riesen Billiard spielen?",
+        "categories": ["Sightseeing"],
+        "hints": ["Skulpturprojekt", "Wasser"],
+        "id": "55bee5ee-ebc2-41cb-a0a6-717e0ac54618"
       }
     }, {
       "type": "Feature",
@@ -37,8 +37,125 @@
         "name": "Rathaus",
         "question": "Wo gibt es eine Hand zu bestaunen?",
         "categories": ["Sightseeing"],
-        "hints": ["30 jaehriger Krieg", "Friedensvertrag"],
-        "id": "2"
+        "hints": ["30 jähriger Krieg", "Friedensvertrag"],
+        "id": "d072295f-e045-4dc0-a50a-a8d54e69356c"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.609320682328395, 51.973031587263286]
+      },
+      "properties": {
+        "name": "Porzellanmuseum",
+        "question": "Lauf zum kleinsten Museum!",
+        "categories": ["Kultur"],
+        "hints": ["Coerde", "Porzellan"],
+        "id": "2f4a5223-828e-40f4-9b75-b4540914570f"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.634051890777789, 51.957369938758355]
+      },
+      "properties": {
+        "name": "GOP",
+        "question": "Wo ist das zweit größte Theater",
+        "categories": ["Kultur"],
+        "hints": ["Bahnhof", "Zirkus"],
+        "id": "b9f60482-6156-481f-9023-917497a3fda2"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.614109926369751, 51.971163844592702]
+      },
+      "properties": {
+        "name": "Schloßtheater",
+        "question": "Es gibt nicht nur Cineplex, wo ist ein anderes Kino?",
+        "categories": ["Kultur"],
+        "hints": ["Theater", "Haus eines Kaisers"],
+        "id": "dd9d47ca-8a48-44c5-9cfd-ee2e64022a75"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.638092685166063, 51.95081547123968]
+      },
+      "properties": {
+        "name": "Hafen",
+        "question": "Wo findet der MSHack statt?",
+        "categories": ["Kultur"],
+        "hints": ["Schiffe", "Versorger"],
+        "id": "e44156f4-bc8a-4d0f-8ed6-e8096dfdc313"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.674993255247041, 51.962850290723026]
+      },
+      "properties": {
+        "name": "Mauritz",
+        "question": "In welchem Wahllokal konnte der Bürgermeister die meisten Wähler begeistern?",
+        "categories": ["Politik"],
+        "hints": ["Fernsehturm", "Osten"],
+        "id": "3bbd3bf6-74f2-4a83-a056-234c8fb9f4b9"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.6330779318315205, 51.912250469633754]
+      },
+      "properties": {
+        "name": "Herz Jesu",
+        "question": "Wo gibt es die meisten \"Die Grünen\" Wähler?",
+        "categories": ["Politik"],
+        "hints": ["Krankenhaus", "Hiltrup"],
+        "id": "da218de7-b08f-4bd6-bdc0-b65ad3b0d4b1"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.598035021020585, 51.95451443169802]
+      },
+      "properties": {
+        "name": "Aasee",
+        "question": "Wo sind die teuersten Grundstücke?",
+        "categories": ["Politik"],
+        "hints": ["Wasser", "Grünfläche"],
+        "id": "3e513b25-41d8-474c-8582-3a9022683732"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.614314440677175, 51.946288994997815]
+      },
+      "properties": {
+        "name": "Sentmaring Park",
+        "question": "Wo is die größte Grünfläche in Münster?",
+        "categories": ["Umwelt"],
+        "hints": ["DZ HYP", "Autobahn"],
+        "id": "6d10ab12-74a3-49e9-b330-179feeef6ce6"
+      }
+    }, {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [7.636039, 51.930369]
+      },
+      "properties": {
+        "name": "Loddenheide",
+        "question": "Dächer haben potential auf Energie, wo gibt es die größte Dachfläche?",
+        "categories": ["Umwelt"],
+        "hints": ["Solarenergie", "Industriegebiet"],
+        "id": "0d863510-b156-47d9-bd41-8a475d603273"
       }
     }
   ]
