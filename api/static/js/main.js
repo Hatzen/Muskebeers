@@ -3,51 +3,29 @@
  */
  var credits = 10;
  var counter = 0;
- const dummyQuestions = [
-     {
-         "type": "Feature",
-         "properties": {
-             "question": "Finde den Turm mit den drei Käfigen",
-             "hints": ["Es ist eine Kirche", "https://...."],
-             "buffer": 100.0 // Wie nah muss man an dem Punkt sein?
-         },
-         "geometry": {
-             "type": "Point",
-             "coordinates": [-104.99404, 39.75621]
-         }
-     },
-     {
-         "type": "Feature",
-         "properties": {
-             "question": "Groß und Rund in MS",
-             "hints": ["Kreisel", "https://...."],
-             "buffer": 100.0 // Wie nah muss man an dem Punkt sein?
-         },
-         "geometry": {
-             "type": "Point",
-             "coordinates": [-110.99404, 50.75621]
-         }
-     }
- ]
  
  /**
   * Implementation
   */
  
- const STORAGE_KEY_CURRENT_QUESTION = "STORAGE_KEY_CURRENT_QUESTION";
  const QRCODE_VIDEO_ID = "QRCODE_VIDEO_ID"
  
  var currentQuestion = null;
  var qrScanner = null;
  
+ $(document).ready(function(){
+     $.get("/active-question", function(data){
+         if (data.status === "OK"){
+             currentQuestion = data.question
+         }else{
+             console.error(data.status)
+         }
+     })
+ })
+
  function initView () {
-     setMainContent(getHTMLCodeForQuestion())
-     if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
-        requestNextQuestion();
-     } else {
-        currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
-        receivedNewQuestion(currentQuestion);
-     }
+    setMainContent(getHTMLCodeForQuestion())
+    requestNextQuestion()
  }
 
  /**
@@ -57,24 +35,20 @@
  function updateGeoLocation (location) {
     if (currentQuestion == null) {
         console.error("Current question is null! UpdateGeoLocation cannot calculate distance.");
+        return
     }
+    console.info(`Current Location: ${location.longitude}-${location.latitude}`)
     let targetLongitude = currentQuestion.geometry.coordinates[0];
     let targetLatitude = currentQuestion.geometry.coordinates[1];
     let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude));
-    if (distanceToQuestionTarget <= currentQuestion.buffer) {
-<<<<<<< HEAD
+    console.info(`Current Distance: ${distanceToQuestionTarget}`)
+    if (distanceToQuestionTarget <= currentQuestion.properties.buffer) {
         requestCheckpointReached(function () {
             if (currentQuestion.alreadyReached == true ) {
                 currentQuestion.alreadyReached = true;
                 credits += 5;
                 alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!")
                 alert("Du hast 5 Credits erhalten");
-=======
-        requestCheckpointReached(function (data) {
-            if (currentQuestion.alreadyReached == true && data.score != null) {
-                currentQuestion.alreadyReached = true;
-                alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!");
->>>>>>> 8bb57afb7b69b39bb0fa720f1287d88a6948e872
             }
         })
     }
@@ -101,30 +75,23 @@
 }
 
  function receivedNewQuestion (question) {
-     debugger
-    localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(question));
+    currentQuestion = question;
     if (isGeoLocationSupported()) {
-        currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
         watchPosition(updateGeoLocation);
         setMainContent(getHTMLCodeForQuestion());
-     }
+    }else{
+        console.warn("GeoLocation is not Supported!")
+    }
  }
  
  async function requestNextQuestion () {
-    const dummyDebug = false;
-    if (dummyDebug) {
-        receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
-    } else {
-        getCurrentPosition(function (position) {
-            let location = {
-                latitude: null,
-                longitude: null,
-            };
-            location.longitude = position.coords.longitude;
-            location.latitude = position.coords.latitude;
-            requestNewQuestionByServer(location, receivedNewQuestion);
-        });
-    }
+    getCurrentPosition(function (position) {
+        let location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+        };
+        requestNewQuestionByServer(location, receivedNewQuestion);
+    });
  }
  
  function setMainContent(htmlCode) {
@@ -151,7 +118,14 @@
      // https://stackoverflow.com/a/23206866/8524651
     QrScanner.WORKER_PATH = "../static/js/qr-scanner-worker.min.js";
      qrScanner = new QrScanner(videoElem, result => {
-         alert('decoded qr code:' + result)
+        data = {"scanned_qid": result}
+        $.post("/checkpoint-scanned", data, function(data){
+            if (data.status === "OK"){
+                setMainContent(getHTMLCodeForQuestion())
+            }else{
+                alert(data.status)
+            }
+        })
      });
      qrScanner.start();
  }
@@ -169,12 +143,9 @@
  }
 
 function getHTMLCodeForQuestion () {
-    // if (currentQuestion == null) {
-    //     return "<center>loading..</center>"
-    // }
-    let question = currentQuestion.properties.question;
+    var text = currentQuestion === null ? "Loading..." : currentQuestion.properties.question
     return "<center><h2 style='margin-top: 25%;'>"
-        + question +
+        + text +
         "</h2></center>" +
         "<div style=' display: flex;'> <img src='../static/pictures/qr-code.png' height='90'  alt='QR-Code' " +
         "onclick='alert(currentQuestion)'></div>" +
