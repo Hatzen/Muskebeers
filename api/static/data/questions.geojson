@@ -26,7 +26,8 @@
         "question": "Wo können Riesen Billiard spielen?",
         "categories": ["Sightseeing"],
         "hints": ["Skulpturprojekt", "Wasser"],
-        "id": "538a967b-c96e-4505-a19f-e986c1b9778d"
+        "id": "538a967b-c96e-4505-a19f-e986c1b9778d",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -39,7 +40,8 @@
         "question": "Wo gibt es eine Hand zu bestaunen?",
         "categories": ["Sightseeing"],
         "hints": ["30 jähriger Krieg", "Friedensvertrag"],
-        "id": "2c748008-5aa1-4c55-8917-8c1040507c55"
+        "id": "2c748008-5aa1-4c55-8917-8c1040507c55",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -52,7 +54,8 @@
         "question": "Lauf zum kleinsten Museum!",
         "categories": ["Kultur"],
         "hints": ["Coerde", "Porzellan"],
-        "id": "2f4a5223-828e-40f4-9b75-b4540914570f"
+        "id": "2f4a5223-828e-40f4-9b75-b4540914570f",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -65,7 +68,8 @@
         "question": "Wo ist das zweit größte Theater",
         "categories": ["Kultur"],
         "hints": ["Bahnhof", "Zirkus"],
-        "id": "b9f60482-6156-481f-9023-917497a3fda2"
+        "id": "b9f60482-6156-481f-9023-917497a3fda2",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -78,7 +82,8 @@
         "question": "Es gibt nicht nur Cineplex, wo ist ein anderes Kino?",
         "categories": ["Kultur"],
         "hints": ["Theater", "Haus eines Kaisers"],
-        "id": "dd9d47ca-8a48-44c5-9cfd-ee2e64022a75"
+        "id": "dd9d47ca-8a48-44c5-9cfd-ee2e64022a75",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -91,7 +96,8 @@
         "question": "Wo findet der MSHack statt?",
         "categories": ["Kultur"],
         "hints": ["Schiffe", "Versorger"],
-        "id": "e44156f4-bc8a-4d0f-8ed6-e8096dfdc313"
+        "id": "e44156f4-bc8a-4d0f-8ed6-e8096dfdc313",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -104,7 +110,8 @@
         "question": "In welchem Wahllokal konnte der Bürgermeister die meisten Wähler begeistern?",
         "categories": ["Politik"],
         "hints": ["Fernsehturm", "Osten"],
-        "id": "3bbd3bf6-74f2-4a83-a056-234c8fb9f4b9"
+        "id": "3bbd3bf6-74f2-4a83-a056-234c8fb9f4b9",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -117,7 +124,8 @@
         "question": "Wo gibt es die meisten \"Die Grünen\" Wähler?",
         "categories": ["Politik"],
         "hints": ["Krankenhaus", "Hiltrup"],
-        "id": "da218de7-b08f-4bd6-bdc0-b65ad3b0d4b1"
+        "id": "da218de7-b08f-4bd6-bdc0-b65ad3b0d4b1",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -130,7 +138,8 @@
         "question": "Wo sind die teuersten Grundstücke?",
         "categories": ["Politik"],
         "hints": ["Wasser", "Grünfläche"],
-        "id": "3e513b25-41d8-474c-8582-3a9022683732"
+        "id": "3e513b25-41d8-474c-8582-3a9022683732",
+        "buffer": 100.0
       }
     }, {
       "type": "Feature",
@@ -156,7 +165,8 @@
         "question": "Dächer haben potential auf Energie, wo gibt es die größte Dachfläche?",
         "categories": ["Umwelt"],
         "hints": ["Solarenergie", "Industriegebiet"],
-        "id": "0d863510-b156-47d9-bd41-8a475d603273"
+        "id": "0d863510-b156-47d9-bd41-8a475d603273",
+        "buffer": 100.0
       }
     }
   ]
