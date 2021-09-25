@@ -1,11 +1,11 @@
 import json
-from flask import Flask, request, session
+from flask import Flask, request, session, url_for
 from models.point import Point
 
 
 active_question = {} # Each SessionID has exactly one question: {sid -> question}
 features = []
-questions_path = "../static/data/questions.geojson"
+questions_path = __file__.replace("routes/questions.py", "static/data/questions.geojson")
 with open(questions_path, "r") as questions_file:
     features = json.load(questions_file)["features"]
 
@@ -33,6 +33,7 @@ def filter_for_solved(features):
     features = list(filter(lambda f: f["properties"]["id"] not in answers, features))
 
 def init(app: Flask):
+
     @app.route('/question')
     def question():
         categories = request.args.getlist('categories')
@@ -47,6 +48,13 @@ def init(app: Flask):
             return {"status": "Failed - No Feature Found", "feature": None, "args": request.args}
         active_question[session["id"]] = feature[0]["properties"]["id"]
         return {"status": "OK", "feature": feature[0], "args": request.args}
+
+    @app.route("/active-question")
+    def getActiveQuestion():
+        sid = session["id"]
+        if sid in active_question:
+            return {"status": "OK", "question": active_question[sid]}
+        return {"status": "Failed - No Active Question", "question": None}
 
     @app.route("/checkpoint-reached", methods=["POST"])
     def checkpointReached():

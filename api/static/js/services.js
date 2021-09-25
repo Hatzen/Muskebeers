@@ -20,10 +20,8 @@
  */
 async function requestNewQuestionByServer(location, callback) {
     // TODO: add parameter &categories=strasse
-    debugger
     let params = null // TODO: pass params instead of string concatination
-    $.get("/question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000", params, function(data) {
-        debugger
+    $.get("/question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000000", params, function(data) {
         if (data.feature != null || data.status === "OK"){
             callback(data.feature)
         } else if (data.feature != null) {
@@ -39,9 +37,7 @@ async function requestNewQuestionByServer(location, callback) {
 async function requestCheckpointReached(callback) {
     // TODO: add parameter &categories=strasse
     let params = {} // TODO: pass params instead of string concatination
-    debugger
     $.post("/checkpoint-reached", params, function (data) {
-        debugger
         if (data.status === "OK"){
             callback(data)
         }
