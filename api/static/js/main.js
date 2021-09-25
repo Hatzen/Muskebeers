@@ -44,6 +44,9 @@
      setMainContent(getHTMLCodeForQuestion())
      if (localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION) == null) {
         requestNextQuestion();
+     } else {
+        currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
+        receivedNewQuestion(currentQuestion);
      }
  }
 
@@ -94,8 +97,8 @@
      debugger
     localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(question));
     if (isGeoLocationSupported()) {
-        watchPosition(updateGeoLocation);
         currentQuestion = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_QUESTION));
+        watchPosition(updateGeoLocation);
         setMainContent(getHTMLCodeForQuestion());
      }
  }

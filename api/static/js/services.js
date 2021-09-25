@@ -47,19 +47,3 @@ async function requestCheckpointReached(callback) {
         }
     }, "json")
 }
-
-/**
- * 
- * @param {function(data: {score: int, ...}) } callback 
- */
- async function requestCheckpointReached(callback) {
-    // TODO: add parameter &categories=strasse
-    let params = {} // TODO: pass params instead of string concatination
-    debugger
-    $.post("/checkpoint-reached", params, function (data) {
-        debugger
-        if (data.status === "OK"){
-            callback(data)
-        }
-    }, "json")
-}
