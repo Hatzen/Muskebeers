@@ -38,7 +38,7 @@ def init(app: Flask):
         categories = request.args.getlist('categories')
         position = request.args.getlist('position')
         lng, lat = position if len(position) == 2 else [0, 0]
-        radius = float(request.args.get('radius', 1500))
+        radius = float(request.args.get('radius', 150000))
 
         feature = filter_for_solved(features)
         feature = filter_for_categories(features, categories)
