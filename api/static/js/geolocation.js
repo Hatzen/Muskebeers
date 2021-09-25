@@ -21,19 +21,11 @@ const MUENSTER_RELEVANT_RADIUS_IN_KM = 2.5
  * Request of Geolocation for current position in
  * @returns [longitude, latitude]
  */
-function getCurrentPosition () {
+function getCurrentPosition (callback) {
     if (navigator.geolocation) {
-        let location = {
-            latitude: null,
-            longitude: null,
-        };
-        navigator.geolocation.getCurrentPosition(function (position) {
-            location.longitude = position.coords.longitude;
-            location.latitude = position.coords.latitude;
-        })
-        return location;
-    } else{
-        return null;
+        navigator.geolocation.getCurrentPosition(callback)
+    } else {
+        callback(null)
     }
 }
 
@@ -42,6 +34,9 @@ function getCurrentPosition () {
  * @prama function({latitude: double, longitude: double}) 
  */
  function watchPosition (callback) {
+     if (currentGeoWatcher != null) {
+        clear()
+     }
     currentGeoWatcher = navigator.geolocation.watchPosition(function (position) {
         let location = {
             latitude: null,
@@ -55,6 +50,7 @@ function getCurrentPosition () {
 
 function clear() {
     navigator.geolocation.clearWatch(currentGeoWatcher);
+    currentGeoWatcher = null
 }
   
 function isGeoLocationSupported () {
