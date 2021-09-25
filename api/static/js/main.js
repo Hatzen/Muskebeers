@@ -59,19 +59,12 @@
     let targetLatitude = currentQuestion.geometry.coordinates[1];
     let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude));
     if (distanceToQuestionTarget <= currentQuestion.buffer) {
-<<<<<<< HEAD
         requestCheckpointReached(function () {
             if (currentQuestion.alreadyReached == true ) {
                 currentQuestion.alreadyReached = true;
                 credits += 5;
                 alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!")
                 alert("Du hast 5 Credits erhalten");
-=======
-        requestCheckpointReached(function (data) {
-            if (currentQuestion.alreadyReached == true && data.score != null) {
-                currentQuestion.alreadyReached = true;
-                alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!");
->>>>>>> 8bb57afb7b69b39bb0fa720f1287d88a6948e872
             }
         })
     }
@@ -148,7 +141,14 @@
      // https://stackoverflow.com/a/23206866/8524651
     QrScanner.WORKER_PATH = "../static/js/qr-scanner-worker.min.js";
      qrScanner = new QrScanner(videoElem, result => {
-         alert('decoded qr code:' + result)
+        data = {"scanned_qid": result}
+        $.post("/checkpoint-scanned", data, function(data){
+            if (data.status === "OK"){
+                setMainContent(getHTMLCodeForQuestion())
+            }else{
+                alert(data.status)
+            }
+        })
      });
      qrScanner.start();
  }
