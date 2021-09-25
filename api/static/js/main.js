@@ -89,6 +89,7 @@
 }
 
  function receivedNewQuestion (question) {
+     debugger
     localStorage.setItem(STORAGE_KEY_CURRENT_QUESTION, JSON.stringify(question));
     if (isGeoLocationSupported()) {
         watchPosition(updateGeoLocation);
@@ -102,9 +103,7 @@
     if (dummyDebug) {
         receivedNewQuestion(dummyQuestions[counter++ % dummyQuestions.length]);
     } else {
-        debugger
         getCurrentPosition(function (position) {
-            debugger
             let location = {
                 latitude: null,
                 longitude: null,

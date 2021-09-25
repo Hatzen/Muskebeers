@@ -24,8 +24,10 @@ async function requestNewQuestionByServer(location, callback) {
     let params = null // TODO: pass params instead of string concatination
     $.get("/question?position=" + location.longitude + "&position=" + location.latitude + "&radius=5000", params, function(data) {
         debugger
-        if (data.status === "OK"){
-            callback(data)
+        if (data.feature != null || data.status === "OK"){
+            callback(data.feature)
+        } else if (data.feature != null) {
+            console.error("Error getting question")
         }
     }, "json")
 }
