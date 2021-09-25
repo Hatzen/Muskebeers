@@ -70,7 +70,7 @@
     }
     user.style.display = null
     new_left = `${3 + 92 * (lng - left) / width}%`
-    new_top = `${1 + 98 * (lat - bottom) / height}%`
+    new_top = `${100 - (1 + 98 * (lat - bottom) / height)}%`
     user.style.left = new_left
     user.style.top = new_top
  }
