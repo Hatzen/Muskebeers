@@ -57,6 +57,15 @@
     let targetLongitude = currentQuestion.geometry.coordinates[0]
     let targetLatitude = currentQuestion.geometry.coordinates[1]
     let distanceToQuestionTarget = Math.abs(getDistanceFromLatLonInKm(location.longitude, location.latitude, targetLongitude, targetLatitude))
+    if (distanceToQuestionTarget <= currentQuestion.buffer) {
+        requestCheckpointReached(function (data) {
+            if (currentQuestion.alreadyReached == true && data.score != null) {
+                currentQuestion.alreadyReached = true
+                score += data.score
+                alert("Ziel erreicht! Scanne den QrCode oder gehe weiter zur nächsten Frage!")
+            }
+        })
+    }
     let currentColor = getColorForValue(distanceToQuestionTarget)
     $("body").css({'background-color': currentColor});
  }
