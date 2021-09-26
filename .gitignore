@@ -3,4 +3,4 @@
 .vscode
 .DS_Store
 node_modules
-public/app.js
+static/js/app.js
