@@ -4,5 +4,4 @@ WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install
-ENTRYPOINT yarn build
+ENTRYPOINT yarn install && yarn build
