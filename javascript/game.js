@@ -13,6 +13,7 @@ export default class Game {
 
   async getNewQuestion() {
     let loc = this.player.position
+    if(!loc) return
     let url = `/question?position=${loc.lng}&position${loc.lat}&radius=5000000`
     let response = await fetch('/question')
     let data     = await response.json()

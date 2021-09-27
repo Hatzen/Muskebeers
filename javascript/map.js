@@ -20,13 +20,22 @@ function setTileLayer(map) {
   }).addTo(map);
 }
 
+let circle = L.circle([0, 0], 0)
+let lastPoint = []
+
 function trackUserPosition(map, player) {
   let onLocationFound = (e) => {
     var radius = e.accuracy / 2;
-    let circle = L.circle(e.latlng, radius)
+    let color  = getColorForValue(0.1)
+
+    circle.setLatLng(e.latlng)
+    circle.setRadius(radius)
+    circle.setStyle({ color })
+
     player.setPosition(e.latlng, e.accuracy)
-    circle.addTo(map);
-    circle.setStyle({ color: getColorForValue(0.1)})
+
+    L.polyline([lastPoint, e.latlng], { color }).addTo(map)
+    lastPoint = e.latlng
   }
 
   map.on('locationfound', onLocationFound);
@@ -36,6 +45,7 @@ function trackUserPosition(map, player) {
 export default function Map(player) {
   let map = L.map('map');
 
+  circle.addTo(map);
   setTileLayer(map)
   trackUserPosition(map, player)
 }
