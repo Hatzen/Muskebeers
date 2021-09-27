@@ -18,6 +18,7 @@ else:
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite://{config['sql-path']}"
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.secret_key = str(uuid.uuid1())
 database.db = SQLAlchemy(app)
 database.init()
@@ -28,6 +29,7 @@ routes.init(app)
 if __name__ == "__main__":
     kwargs = {
         "host": f"{config['host']}",
-        "port": 5000
+        "port": 5000,
+        "use_reloader": True
     }
     app.run(**kwargs)
