@@ -4,7 +4,7 @@ import { skipQuestion } from './requests'
 
 function skip(player) {
   return async () => {
-    feature = await skipQuestion(player.position)
+    let feature = await skipQuestion(player.position)
     player.setQuestion(feature)
   }
 }
