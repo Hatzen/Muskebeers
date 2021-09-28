@@ -8,9 +8,9 @@ export default class Player {
   constructor() {
     this.events = {}
     this.popUpElement = document.createElement('div')
-    this.popUp = <Popup />
+
     ReactDOM.render(
-      <div>{this.popUp}</div>,
+      <Popup player={this} />,
       this.popUpElement
     );
   }
@@ -23,9 +23,9 @@ export default class Player {
     this.events[key] = method
   }
 
-  emit(key) {
+  emit(key, payload) {
     if(this.events[key])
-      this.events[key]()
+      this.events[key](payload)
   }
 
   setPosition(coords, accuracy) {
@@ -48,6 +48,7 @@ export default class Player {
     this.feature = feature
     this.color = this.calculateColor()
     this.circle.setStyle({ color: this.color })
+    this.emit('questionset', feature)
   }
 
   initCircle() {

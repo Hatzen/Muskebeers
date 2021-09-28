@@ -1,5 +1,5 @@
 import '@fortawesome/fontawesome-free/css/all.css'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { currentQuestion } from './requests'
 
 function skip() {
@@ -10,11 +10,10 @@ function qr() {
   alert("yey! :)")
 }
 
-export default function Popup() {
+export default function Popup({ player }) {
   const [question, setQuestion] = useState('')
 
-  useEffect(async () => {
-    const feature = await currentQuestion()
+  player.on('questionset', (feature) => {
     setQuestion(feature.properties.question)
   })
 
