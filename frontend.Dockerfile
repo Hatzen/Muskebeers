@@ -3,5 +3,6 @@ FROM node
 WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
+COPY . .
 
-ENTRYPOINT yarn install && yarn start
+ENTRYPOINT "./asset_server.sh"

@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  api:
+  api: &api
     build:
       context: .
       dockerfile: backend.Dockerfile
@@ -9,7 +9,9 @@ services:
       - 5000:5000
     volumes:
       - .:/app
-  app:
+    environment:
+      ASSETS_PATH: 'http://localhost:8080'
+  app: &app
     build:
       context: .
       dockerfile: frontend.Dockerfile
@@ -17,3 +19,12 @@ services:
       - 8080:8080
     volumes:
       - .:/app
+  prod:
+    <<: *api
+    environment:
+      ASSETS_PATH: '/static/js'
+    depends_on:
+      - prod_assets
+  prod_assets:
+    <<: *app
+    entrypoint: "./asset_build.sh"

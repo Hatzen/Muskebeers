@@ -1,3 +1,4 @@
+import os
 import uuid
 from flask import Flask, render_template, session, request, redirect, url_for
 import database
@@ -9,7 +10,8 @@ def init(app: Flask):
     @app.route("/")
     def index():
         attr = {
-            "content": []
+            "content": [],
+            "assets_path": os.environ['ASSETS_PATH']
         }
 
         if session.get("id") is None:
@@ -49,6 +51,7 @@ def init(app: Flask):
             return redirect(url_for("index"))
         attr = {
             "session_id": sid,
-            "name": user.name
+            "name": user.name,
+            "assets_path": os.environ['ASSETS_PATH']
         }
         return render_template("game.html.j2", **attr)
