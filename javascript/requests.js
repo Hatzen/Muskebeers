@@ -19,7 +19,7 @@ async function skipQuestion(loc) {
   let response = await fetch(url)
   let data     = await response.json()
 
-  if(data.status === "OK") return data.question
+  if(data.status === "OK") return data.feature
 }
 
 async function checkpointReached() {

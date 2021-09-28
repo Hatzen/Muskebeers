@@ -1,9 +1,12 @@
 import '@fortawesome/fontawesome-free/css/all.css'
 import React, { useState } from 'react'
-import { currentQuestion } from './requests'
+import { skipQuestion } from './requests'
 
-function skip() {
-  alert("ok :(")
+function skip(player) {
+  return async () => {
+    feature = await skipQuestion(player.position)
+    player.setQuestion(feature)
+  }
 }
 
 function qr() {
@@ -25,7 +28,7 @@ export default function Popup({ player }) {
         <button onClick={qr} className="btn btn-sm btn-secondary">
         <i className="fas fa-qrcode"></i>
         </button>
-        <button onClick={skip} className="btn btn-sm btn-danger">
+        <button onClick={skip(player)} className="btn btn-sm btn-danger">
         <i className="fas fa-forward"></i>
         </button>
       </div>
