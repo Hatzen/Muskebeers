@@ -8,9 +8,9 @@ export default class Player {
   constructor() {
     this.events = {}
     this.popUpElement = document.createElement('div')
-    let title = "It works"
+    this.popUp = <Popup />
     ReactDOM.render(
-      <div><Popup question="Test" /></div>,
+      <div>{this.popUp}</div>,
       this.popUpElement
     );
   }

@@ -3,7 +3,7 @@ async function currentQuestion() {
   let data = await response.json()
 
   if(data.status === "OK") 
-    return data.question
+    return data.feature
 }
 
 async function newQuestion(loc) {
