@@ -8,5 +8,4 @@ import Player from './player'
 let player = new Player()
 let game   = new Game(player)
 
-let question = game.currentQuestion().then((q) => console.log(q))
 Map(player)
