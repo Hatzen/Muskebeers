@@ -1,10 +1,18 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import L from 'leaflet'
 import { getColorForValue } from './colors'
-import Popup from './popup'
+import Popup from './Popup'
 
 export default class Player {
   constructor() {
     this.events = {}
+    this.popUpElement = document.createElement('div')
+    let title = "It works"
+    ReactDOM.render(
+      <div><Popup question="Test" /></div>,
+      this.popUpElement
+    );
   }
 
   setMap(map) {
@@ -50,13 +58,8 @@ export default class Player {
   }
 
   setPopupQuestion() {
-    let questionHtml = this.popupHtml()
-    this.circle.bindPopup(questionHtml)
+    this.circle.bindPopup(this.popUpElement)
     this.circle.openPopup()
-  }
-
-  popupHtml() {
-    return Popup(this.feature.properties)
   }
 
   calculateColor() {
