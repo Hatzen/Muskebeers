@@ -77,7 +77,8 @@ def init(app: Flask):
 
         answer = Answers.query.filter_by(session=session["id"], question_id=current_question).first()
         if answer is None:
-            skipped_questions[session["id"]] = skipped_questions.get(session["id"], []).append(current_question.question)
+            skipped_questions[session["id"]] = skipped_questions.get(session["id"], [])
+            skipped_questions[session["id"]].append(current_question.question)
 
         return question()
 
