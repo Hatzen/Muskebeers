@@ -37,6 +37,8 @@ export default class Player {
 
   setQuestion(feature) {
     this.feature = feature
+    this.color = this.calculateColor()
+    this.circle.setStyle({ color: this.color })
   }
 
   initCircle() {
@@ -48,18 +50,19 @@ export default class Player {
 
   setPopupQuestion() {
     let questionHtml = this.popupHtml()
-    this.circle.bindPop(questionHtml)
-    this.circle.openPop()
+    this.circle.bindPopup(questionHtml)
+    this.circle.openPopup()
   }
 
   popupHtml() {
-    return `${feature.properties.question}<br><button class="btn btn-danger">skip</button>`
+    return `<h1>${this.feature.properties.question}</h1><button class="btn btn-danger btn-sm">skip</button>`
   }
 
   calculateColor() {
     if(!this.feature) return 'green'
     let currentPoint = L.latLng(this.position.lat, this.position.lng)
-    let questionPoint = L.latLng(this.feature.geometry.coordinates)
+    let questionPoint = L.latLng(this.feature.geometry.coordinates.reverse())
+    this.feature.geometry.coordinates.reverse()
     let distanceKm = currentPoint.distanceTo(questionPoint) / 1000.0
     return getColorForValue(distanceKm)
   }
@@ -68,7 +71,7 @@ export default class Player {
     let radius = this.position.accuracy / 2.0
     this.circle.setRadius(radius)
     this.circle.setStyle({ color: this.color })
-    this.circle.openPop()
+    this.circle.openPopup()
   }
 
   drawLine() {

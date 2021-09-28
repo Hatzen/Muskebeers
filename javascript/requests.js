@@ -7,15 +7,15 @@ async function currentQuestion() {
 }
 
 async function newQuestion(loc) {
-  let url = `/question?position=${loc.lng}&position${loc.lat}&radius=5000`
+  let url = `/question?position=${loc.lng}&position=${loc.lat}&radius=5000`
   let response = await fetch(url)
   let data     = await response.json()
 
-  if(data.status === "OK") return data.question
+  if(data.status === "OK") return data.feature
 }
 
 async function skipQuestion(loc) {
-  let url = `/skip-question?position=${loc.lng}&position${loc.lat}&radius=5000`
+  let url = `/skip-question?position=${loc.lng}&position=${loc.lat}&radius=5000`
   let response = await fetch(url)
   let data     = await response.json()
 

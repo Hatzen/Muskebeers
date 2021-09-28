@@ -9,11 +9,12 @@ export default class Game {
 
   async start() {
     let feature = await newQuestion(this.player.position)
+    this.player.initCircle()
     if(feature) {
-      this.setQuestion(feature)
+      this.player.setQuestion(feature)
+      this.player.updateCircle()
       this.player.setPopupQuestion()
     }
-    this.player.initCircle()
   }
 
   update() {
