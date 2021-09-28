@@ -1,12 +1,5 @@
-/**
- * DEV Fields
- */
  var credits = 10;
  var counter = 0;
- 
- /**
-  * Implementation
-  */
  
  const QRCODE_VIDEO_ID = "QRCODE_VIDEO_ID"
  
