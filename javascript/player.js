@@ -1,5 +1,6 @@
 import L from 'leaflet'
 import { getColorForValue } from './colors'
+import Popup from './popup'
 
 export default class Player {
   constructor() {
@@ -55,7 +56,7 @@ export default class Player {
   }
 
   popupHtml() {
-    return `<h1>${this.feature.properties.question}</h1><button class="btn btn-danger btn-sm">skip</button>`
+    return Popup(this.feature.properties.question)
   }
 
   calculateColor() {
