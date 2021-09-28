@@ -30,7 +30,9 @@ def init(app: Flask):
             database.db.session.add(user)
             database.db.session.commit()
             session["name"] = user.name
-            return {"status": "OK"}
+            return redirect(url_for("game"))
+        else:
+            return render_template("index.html.j2")
 
     @app.route("/session-test")
     def sessionTest():
