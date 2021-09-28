@@ -56,7 +56,7 @@ export default class Player {
   }
 
   popupHtml() {
-    return Popup(this.feature.properties.question)
+    return Popup(this.feature.properties)
   }
 
   calculateColor() {
