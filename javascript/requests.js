@@ -36,10 +36,18 @@ async function requestCurrentScore() {
   if(data.status === "OK") return data.question
 }
 
+async function leaveGame() {
+  let response = await fetch('/leave-game', { method: 'POST' })
+  let data     = await response.json()
+
+  return data.status === "OK"
+}
+
 export { 
   currentQuestion, 
   newQuestion, 
   skipQuestion, 
   checkpointReached, 
-  requestCurrentScore 
+  requestCurrentScore,
+  leaveGame
 }

@@ -5,7 +5,7 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [7.628715, 51.962748]
+        "coordinates": [18.907764169044295, 59.85919041170874]
       },
       "properties": {
         "name": "Lambertikirche",
@@ -19,7 +19,7 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [7.618151724852883, 51.956984212421915]
+        "coordinates": [18.89367462873346, 59.84202745035138]
       },
       "properties": {
         "name": "Aaseekugeln",
@@ -33,7 +33,7 @@
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [7.626444, 51.962748]
+        "coordinates": [18.88853043754152, 59.8437489362472]
       },
       "properties": {
         "name": "Rathaus",

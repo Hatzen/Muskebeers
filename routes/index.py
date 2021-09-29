@@ -36,6 +36,11 @@ def init(app: Flask):
         else:
             return render_template("index.html.j2")
 
+    @app.route("/leave-game", methods=["POST"])
+    def leaveGame():
+        session.clear()
+        return { "status": "OK" }
+
     @app.route("/session-test")
     def sessionTest():
         attr = {
