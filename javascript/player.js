@@ -15,8 +15,9 @@ export default class Player {
     );
   }
 
-  setMap(map) {
+  setMap(map, controlls) {
     this.map = map
+    this.controlls = controlls
   }
 
   on(key, method) {
@@ -26,6 +27,12 @@ export default class Player {
   emit(key, payload) {
     if(this.events[key])
       this.events[key](payload)
+  }
+
+  initLayer() {
+    this.layer = L.layerGroup()
+    this.layer.addTo(this.map)
+    this.controlls.addOverlay(this.layer, this.feature.properties.question)
   }
 
   setPosition(coords, accuracy) {
@@ -48,6 +55,7 @@ export default class Player {
     this.feature = feature
     this.color = this.calculateColor()
     this.circle.setStyle({ color: this.color })
+    this.initLayer()
     this.emit('questionset', feature)
   }
 
@@ -82,6 +90,6 @@ export default class Player {
   drawLine() {
     let currentPoint = L.latLng(this.position.lat, this.position.lng)
     L.polyline([this.lastPoint, currentPoint], { color: this.color })
-      .addTo(this.map)
+      .addTo(this.layer)
   }
 }
