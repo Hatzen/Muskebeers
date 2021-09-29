@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import L from 'leaflet'
 import { getColorForValue } from './colors'
 import Popup from './Popup'
+import Observable from './observable'
 
-export default class Player {
+export default class Player extends Observable {
   constructor() {
-    this.events = {}
+    super()
     this.popUpElement = document.createElement('div')
 
     ReactDOM.render(
@@ -18,15 +19,6 @@ export default class Player {
   setMap(map, controlls) {
     this.map = map
     this.controlls = controlls
-  }
-
-  on(key, method) {
-    this.events[key] = method
-  }
-
-  emit(key, payload) {
-    if(this.events[key])
-      this.events[key](payload)
   }
 
   initLayer() {
