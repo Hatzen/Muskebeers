@@ -4,27 +4,19 @@ import L from 'leaflet'
 import { getColorForValue } from './colors'
 import Popup from './Popup'
 import Observable from './observable'
+import Map from './map'
 
 export default class Player extends Observable {
   constructor() {
     super()
     this.popUpElement = document.createElement('div')
+    this.map = new Map(this)
+    this.map.initCircle({ lat: 0, lng: 0, accuracy: 10.0 })
 
     ReactDOM.render(
       <Popup player={this} />,
       this.popUpElement
     );
-  }
-
-  setMap(map, controlls) {
-    this.map = map
-    this.controlls = controlls
-  }
-
-  initLayer() {
-    this.layer = L.layerGroup()
-    this.layer.addTo(this.map)
-    this.controlls.addOverlay(this.layer, this.feature.properties.question)
   }
 
   setPosition(coords, accuracy) {
@@ -36,6 +28,7 @@ export default class Player extends Observable {
 
     this.position = { ... coords, accuracy}
     this.color = this.calculateColor()
+    this.map.updateCircle(this.position, this.color)
 
     if(firstTimeCall)
       this.emit('firstLocation')
@@ -46,21 +39,9 @@ export default class Player extends Observable {
   setQuestion(feature) {
     this.feature = feature
     this.color = this.calculateColor()
-    this.circle.setStyle({ color: this.color })
-    this.initLayer()
+    this.map.initLayer(feature)
+    this.map.setPopup(this.popUpElement)
     this.emit('questionset', feature)
-  }
-
-  initCircle() {
-    let radius = this.position.accuracy / 2
-    let coords = [this.position.lat, this.position.lng]
-    this.circle = L.circle(coords, radius)
-    this.circle.addTo(this.map)
-  }
-
-  setPopupQuestion() {
-    this.circle.bindPopup(this.popUpElement)
-    this.circle.openPopup()
   }
 
   calculateColor() {
@@ -78,18 +59,5 @@ export default class Player extends Observable {
     if(distance <= this.feature.properties.buffer)
       this.emit('fuckingclose', this.feature)
     return distance / 1000.0
-  }
-
-  updateCircle() {
-    let radius = this.position.accuracy / 2.0
-    this.circle.setRadius(radius)
-    this.circle.setStyle({ color: this.color })
-    this.circle.openPopup()
-  }
-
-  drawLine() {
-    let currentPoint = L.latLng(this.position.lat, this.position.lng)
-    L.polyline([this.lastPoint, currentPoint], { color: this.color })
-      .addTo(this.layer)
   }
 }
