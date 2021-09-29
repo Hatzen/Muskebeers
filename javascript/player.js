@@ -73,11 +73,18 @@ export default class Player {
 
   calculateColor() {
     if(!this.feature) return 'green'
-    let currentPoint = L.latLng(this.position.lat, this.position.lng)
-    let questionPoint = L.latLng(this.feature.geometry.coordinates.reverse())
-    this.feature.geometry.coordinates.reverse()
-    let distanceKm = currentPoint.distanceTo(questionPoint) / 1000.0
+    const distanceKm = this.distanceToAnswer()
     return getColorForValue(distanceKm)
+  }
+
+  distanceToAnswer() {
+    const currentPoint = L.latLng(this.position.lat, this.position.lng)
+    const questionPoint = L.latLng(this.feature.geometry.coordinates.reverse())
+    this.feature.geometry.coordinates.reverse()
+    const distance = currentPoint.distanceTo(questionPoint)
+    if(distance <= this.feature.properties.buffer)
+      this.emit('fuckingclose')
+    return distance / 1000.0
   }
 
   updateCircle() {

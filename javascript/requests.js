@@ -23,10 +23,10 @@ async function skipQuestion(loc) {
 }
 
 async function checkpointReached() {
-  let response = await fetch('/checkpoint-reached')
+  let response = await fetch('/checkpoint-reached', { method: 'POST' })
   let data     = await response.json()
 
-  if(data.status === "OK") return data.question
+  if(data.status === "OK") return data.score
 }
 
 async function requestCurrentScore() {
