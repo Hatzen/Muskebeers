@@ -39,16 +39,17 @@ export default class Map {
     this.map.locate({setView: true, watch: true, maxZoom: 18});
   }
 
-  initLayer(feature) {
+  initLayer(feature, position) {
     this.layer = L.layerGroup()
     this.layer.addTo(this.map)
     this.layerController.addOverlay(this.layer, feature.properties.question)
+    this.lastPoint = position.latLng
   }
 
   drawLine(position, color) {
-    const currentPoint = L.latLng(position.lat, position.lng)
-    L.polyline([this.lastPoint, currentPoint], { color })
-      .addTo(this.layer)
+    const currentPoint = position.latLng
+    L.polyline([this.lastPoint, currentPoint], { color }).addTo(this.layer)
+    this.lastPoint = currentPoint
   }
 
   initCircle(position) {

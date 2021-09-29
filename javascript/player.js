@@ -50,7 +50,7 @@ export default class Player extends Observable {
     this.feature = feature
     this.calculateParams()
     this.map.updateCircle(this.position, this.color)
-    this.map.initLayer(feature)
+    this.map.initLayer(feature, this.position)
     this.map.openPopup()
     this.emit('questionset', feature)
   }
