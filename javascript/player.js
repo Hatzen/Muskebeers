@@ -5,6 +5,7 @@ import { getColorForValue } from './colors'
 import Popup from './Popup'
 import Observable from './observable'
 import Map from './map'
+import Position from './position'
 
 export default class Player extends Observable {
   constructor() {
@@ -12,6 +13,7 @@ export default class Player extends Observable {
     this.popUpElement = document.createElement('div')
     this.map = new Map(this)
     this.map.initCircle({ lat: 0, lng: 0, accuracy: 10.0 })
+    this.map.initPopup(this.popUpElement)
 
     ReactDOM.render(
       <Popup player={this} />,
@@ -26,38 +28,35 @@ export default class Player extends Observable {
       firstTimeCall = false
     }
 
-    this.position = { ... coords, accuracy}
-    this.color = this.calculateColor()
+    this.position = new Position(coords.lat, coords.lng, accuracy)
+
+    if(this.feature) {
+      this.calculateParams()
+      if(this.distance < this.feature.properties.buffer)
+        this.emit('fuckingclose', this.feature)
+    } else {
+      this.color = 'green'
+    }
+
     this.map.updateCircle(this.position, this.color)
 
     if(firstTimeCall)
       this.emit('firstLocation')
     else
-      this.emit('locationupdate')
+      this.emit('locationupdate', this)
   }
 
   setQuestion(feature) {
     this.feature = feature
-    this.color = this.calculateColor()
+    this.calculateParams()
+    this.map.updateCircle(this.position, this.color)
     this.map.initLayer(feature)
-    this.map.setPopup(this.popUpElement)
+    this.map.openPopup()
     this.emit('questionset', feature)
   }
 
-  calculateColor() {
-    if(!this.feature) return 'green'
-    const distanceKm = this.distanceToAnswer()
-    return getColorForValue(distanceKm)
-  }
-
-  distanceToAnswer() {
-    const currentPoint = L.latLng(this.position.lat, this.position.lng)
-    const questionPoint = L.latLng(this.feature.geometry.coordinates.reverse())
-    this.feature.geometry.coordinates.reverse()
-    const distance = currentPoint.distanceTo(questionPoint)
-    this.emit('distanceUpdated', distance)
-    if(distance <= this.feature.properties.buffer)
-      this.emit('fuckingclose', this.feature)
-    return distance / 1000.0
+  calculateParams() {
+    this.distance = this.position.distanceTo(this.feature)
+    this.color = getColorForValue(this.distance / 1000.0)
   }
 }

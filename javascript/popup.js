@@ -31,8 +31,8 @@ export default function Popup({ player }) {
     setEnableQr(true)
   })
 
-  player.on('distanceUpdated', (distance) => {
-    const showableDistance = distance.toFixed(0)
+  player.on('locationupdate', (player) => {
+    const showableDistance = player.distance.toFixed(0)
     setDistance(showableDistance)
   })
 

@@ -46,7 +46,7 @@ export default class Map {
   }
 
   drawLine(position, color) {
-    let currentPoint = L.latLng(position.lat, position.lng)
+    const currentPoint = L.latLng(position.lat, position.lng)
     L.polyline([this.lastPoint, currentPoint], { color })
       .addTo(this.layer)
   }
@@ -59,17 +59,20 @@ export default class Map {
   }
 
   updateCircle(position, color) {
-    const latLng = L.latLng(position.lat, position.lng)
     let radius = position.accuracy / 2.0
     this.circle.setRadius(radius)
     this.circle.setStyle({ color })
-    this.circle.setLatLng(latLng)
+    this.circle.setLatLng(position.latLng)
     if(this.layer)
       this.drawLine(position, color)
   }
 
-  setPopup(elem) {
+  initPopup(elem) {
     this.circle.bindPopup(elem)
+    this.circle.openPopup()
+  }
+  
+  openPopup() {
     this.circle.openPopup()
   }
 }
