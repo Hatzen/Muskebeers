@@ -82,8 +82,9 @@ export default class Player {
     const questionPoint = L.latLng(this.feature.geometry.coordinates.reverse())
     this.feature.geometry.coordinates.reverse()
     const distance = currentPoint.distanceTo(questionPoint)
+    this.emit('distanceUpdated', distance)
     if(distance <= this.feature.properties.buffer)
-      this.emit('fuckingclose')
+      this.emit('fuckingclose', this.feature)
     return distance / 1000.0
   }
 

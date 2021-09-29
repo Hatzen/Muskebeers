@@ -5,7 +5,7 @@ export default class Game {
     this.player = player
     this.player.on('firstLocation', this.start.bind(this))
     this.player.on('locationupdate', this.update.bind(this))
-    this.player.on('fuckingclose', this.nextQuestion.bind(this))
+    //this.player.on('fuckingclose', this.nextQuestion.bind(this))
   }
 
   async start() {
