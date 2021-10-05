@@ -4,21 +4,25 @@ services:
   api: &api
     build:
       context: .
-      dockerfile: backend.Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
     volumes:
       - .:/app
     environment:
       ASSETS_PATH: 'http://localhost:8080'
+    entrypoint: "python main.py"
+    depends_on:
+      - app
   app: &app
     build:
       context: .
-      dockerfile: frontend.Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     volumes:
       - .:/app
+    entrypoint: ["/bin/sh", "-c", "yarn install && yarn start"]
   prod:
     <<: *api
     environment:
@@ -27,4 +31,4 @@ services:
       - prod_assets
   prod_assets:
     <<: *app
-    entrypoint: "./asset_build.sh"
+    entrypoint: ["/bin/sh", "-c", "yarn install && yarn build"]
