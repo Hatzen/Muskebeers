@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import L from 'leaflet'
 import { getColorForValue } from './colors'
-import Popup from './Popup'
+import Popup from './popup'
 import Observable from './observable'
 import Map from './map'
 import Position from './position'
